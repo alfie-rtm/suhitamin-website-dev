@@ -1,31 +1,61 @@
 // Hero.jsx — Full-screen with folder nav, no separate nav bar
+// Floating folders for immersive "enter Suhit's world" feel
 const FOLDERS = [
-  { id:'projects',    label:'Projects',    emoji:'📁', x:'-500%', y:'-250%' },
-  { id:'investing',   label:'Investing',   emoji:'📁', x:'500%',  y:'-195%' },
-  { id:'youtube',     label:'Content',     emoji:'📁', x:'-400%', y:'300%'  },
-  { id:'speaking',    label:'Speaking',    emoji:'📁', x:'350%',  y:'250%'  },
+  { id:'projects',    label:'Projects',    x:'-500%', y:'-250%', floatDur: '4.2s', floatDelay: '0s',   rot: -3 },
+  { id:'investing',   label:'Investing',   x:'500%',  y:'-195%', floatDur: '5.1s', floatDelay: '0.7s',  rot: 2  },
+  { id:'youtube',     label:'Content',     x:'-400%', y:'300%',  floatDur: '3.8s', floatDelay: '1.4s',  rot: -2 },
+  { id:'speaking',    label:'Speaking',    x:'350%',  y:'250%',  floatDur: '4.6s', floatDelay: '2.1s',  rot: 3  },
 ];
 
-const MacFolder = ({ label, href, style }) => {
+const MacFolder = ({ label, href, floatDur, floatDelay, rot }) => {
   const [hov, setHov] = React.useState(false);
+  const [tilt, setTilt] = React.useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    setTilt({
+      x: (e.clientY - cy) / 12,
+      y: (cx - e.clientX) / 12,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setHov(false);
+    setTilt({ x: 0, y: 0 });
+  };
+
+  const floatName = `float_${label.replace(/\s/g,'')}`;
+
   return (
     <a href={href}
       onMouseEnter={()=>setHov(true)}
-      onMouseLeave={()=>setHov(false)}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       style={{
         display:'flex', flexDirection:'column', alignItems:'center', gap:7,
         textDecoration:'none', cursor:'pointer',
-        transform: hov ? 'translateY(-5px) scale(1.08)' : 'none',
-        transition:'transform 0.3s cubic-bezier(0.4,0,0.2,1)',
-        ...style,
+        animation: `${floatName} ${floatDur} ease-in-out ${floatDelay} infinite`,
+        transform: hov
+          ? `translateY(-8px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.12)`
+          : `rotate(${rot}deg)`,
+        transformStyle:'preserve-3d',
+        perspective:600,
+        transition:'transform 0.25s cubic-bezier(0.4,0,0.2,1)',
+        filter: hov ? 'drop-shadow(0 0 20px rgba(0,102,255,0.4))' : 'none',
       }}>
       {/* Folder body */}
-      <div style={{position:'relative', width:86, height:70}}>
+      <div style={{
+        position:'relative', width:86, height:70,
+        transform: `translateZ(${hov ? 20 : 0}px)`,
+        transition:'transform 0.25s cubic-bezier(0.4,0,0.2,1)',
+      }}>
         {/* Tab */}
         <div style={{
           position:'absolute', top:-11, left:0, width:34, height:12,
-          background: hov ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.10)',
-          border:'1px solid rgba(255,255,255,0.20)',
+          background: hov ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.10)',
+          border:'1px solid rgba(255,255,255,0.25)',
           borderBottom:'none', borderRadius:'4px 4px 0 0',
           backdropFilter:'blur(12px)',
           transition:'background 0.2s',
@@ -33,13 +63,15 @@ const MacFolder = ({ label, href, style }) => {
         {/* Body */}
         <div style={{
           position:'absolute', inset:0,
-          background: hov ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.09)',
-          border:'1px solid rgba(255,255,255,0.22)',
+          background: hov ? 'rgba(255,255,255,0.20)' : 'rgba(255,255,255,0.09)',
+          border:'1px solid rgba(255,255,255,0.28)',
           borderRadius:'0 4px 4px 4px',
           backdropFilter:'blur(16px)',
           display:'flex', alignItems:'center', justifyContent:'center',
-          transition:'background 0.2s',
-          boxShadow: hov ? '0 8px 32px rgba(0,102,255,0.25)' : '0 4px 16px rgba(0,0,0,0.3)',
+          transition:'background 0.2s, box-shadow 0.3s',
+          boxShadow: hov
+            ? '0 12px 40px rgba(0,102,255,0.35), inset 0 1px 0 rgba(255,255,255,0.15)'
+            : '0 4px 16px rgba(0,0,0,0.3)',
         }}>
           {/* Inner icon */}
           <div style={{display:'flex', flexDirection:'column', alignItems:'center', gap:2}}>
@@ -61,7 +93,17 @@ const MacFolder = ({ label, href, style }) => {
         fontFamily:"'Saira',sans-serif", fontWeight:600, whiteSpace:'nowrap',
         transition:'color 0.2s',
         textShadow:'0 1px 8px rgba(0,0,0,0.5)',
+        transform: `translateZ(${hov ? 10 : 0}px)`,
       }}>{label}</span>
+
+      <style>{`
+        @keyframes ${floatName} {
+          0%, 100% { transform: translateY(0) rotate(${rot}deg); }
+          25% { transform: translateY(-6px) rotate(${rot + 0.5}deg); }
+          50% { transform: translateY(-3px) rotate(${rot - 0.3}deg); }
+          75% { transform: translateY(-8px) rotate(${rot + 0.2}deg); }
+        }
+      `}</style>
     </a>
   );
 };
@@ -162,7 +204,7 @@ const HeroComponent = ({ onLightMode }) => {
               ))}
             </h1>
 
-            {/* macOS Folder Nav — positioned relative to text */}
+            {/* macOS Folder Nav — floating around the title */}
             <div style={{
               position:'absolute', inset:0,
               opacity:folderOp, transition:'opacity 0.15s',
@@ -173,7 +215,13 @@ const HeroComponent = ({ onLightMode }) => {
                   position:'absolute', left:'50%', top:'50%',
                   transform:`translate(${f.x}, ${f.y})`,
                 }}>
-                  <MacFolder label={f.label} href={`#${f.id}`}/>
+                  <MacFolder
+                    label={f.label}
+                    href={`#${f.id}`}
+                    floatDur={f.floatDur}
+                    floatDelay={f.floatDelay}
+                    rot={f.rot}
+                  />
                 </div>
               ))}
             </div>

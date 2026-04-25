@@ -67,9 +67,7 @@ const DarkInterlude = () => {
   }, []);
 
   return (
-    {/* The Mission — hidden (retained for future use) */}
     <section ref={ref} style={{
-      display:'none',
       background:'#000711', padding:'120px 48px', textAlign:'center',
       position:'relative', overflow:'hidden',
     }}>
@@ -104,8 +102,8 @@ const App = () => {
       <ProjectsComponent lightMode={lightMode} />
       <VideosComponent lightMode={lightMode} />
 
-      {/* Dark interlude — resets to dark */}
-      <DarkInterlude />
+      {/* Dark interlude — hidden (retained for future use) */}
+      {/* <DarkInterlude /> */}
 
       {/* Chapter 3 — Dark */}
       <StoryComponent lightMode={false} />

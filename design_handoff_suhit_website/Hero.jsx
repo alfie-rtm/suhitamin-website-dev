@@ -62,7 +62,7 @@ const HeroComponent = ({ onLightMode }) => {
       const scrolled = -rect.top;
       const p = Math.max(0, Math.min(1, scrolled / (sH - window.innerHeight)));
       setProgress(p);
-      if (onLightMode) onLightMode(p > 0.65);
+      if (onLightMode) onLightMode(p > 0.80);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -78,16 +78,16 @@ const HeroComponent = ({ onLightMode }) => {
   }, []);
 
   // SLOW, GENTLE zoom:
-  // Phase 1 (0-50%): "A" zooms to fill viewport — scale 1→120
-  // Phase 2 (50-70%): All content fades out
-  // Phase 3 (70-90%): Background transitions dark → white
-  const phase1 = Math.min(1, progress / 0.50);
-  const phase2 = Math.max(0, Math.min(1, (progress - 0.50) / 0.20));
-  const phase3 = Math.max(0, Math.min(1, (progress - 0.70) / 0.20));
+  // Phase 1 (0-65%): "A" zooms to fill viewport — scale 1→81
+  // Phase 2 (65-80%): All content fades out
+  // Phase 3 (80-95%): Background transitions dark → white
+  const phase1 = Math.min(1, progress / 0.65);
+  const phase2 = Math.max(0, Math.min(1, (progress - 0.65) / 0.15));
+  const phase3 = Math.max(0, Math.min(1, (progress - 0.80) / 0.15));
 
-  const headingScale = 1 + phase1 * 120;
+  const headingScale = 1 + phase1 * 80;
   const contentOp    = Math.max(0, 1 - phase2);
-  const blobOp       = Math.max(0, 1 - phase1 * 1.5);
+  const blobOp       = Math.max(0, 1 - phase1);
   const vignetteOp   = Math.max(0, 1 - phase2);
 
   // Background: #000711 → #f2f4f8

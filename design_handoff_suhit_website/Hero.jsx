@@ -78,34 +78,33 @@ const HeroComponent = ({ onLightMode }) => {
       const scrolled = -rect.top;
       const p = Math.max(0, Math.min(1, scrolled / (sH - window.innerHeight)));
       setProgress(p);
-      if (onLightMode) onLightMode(p > 0.88);
+      if (onLightMode) onLightMode(p > 0.78);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, [onLightMode]);
 
-  // Animation phases
-  const phase1  = Math.min(1, progress / 0.45);
-  const phase2  = Math.max(0, Math.min(1, (progress - 0.45) / 0.3));
-  const phase3  = Math.max(0, (progress - 0.75) / 0.15);
+  // Phase 1 (0-50%): Everything zooms together
+  // Phase 2 (50-70%): Content fades out
+  const phase1 = Math.min(1, progress / 0.50);
+  const phase2 = Math.max(0, Math.min(1, (progress - 0.50) / 0.20));
 
-  const globalScale = 1 + phase1 * 8;
-  const tExtraScale = 1 + phase2 * 7;
-  const otherOp     = Math.max(0, 1 - phase2 * 2);
-  const eyebrowOp   = Math.max(0, 1 - phase1 * 4);
-  const tagOp       = Math.max(0, 1 - phase1 * 5);
-  const folderOp    = Math.max(0, 1 - phase1 * 2.2);
-  const blobOp      = Math.max(0, 1 - phase1 * 2.5);
-  const blackOp     = Math.min(1, phase3 * 2.5);
+  const globalScale = 1 + phase1 * 60;        // 1→61x: "A" fills viewport
+  const contentOp    = Math.max(0, 1 - phase2);
+  const blobOp       = Math.max(0, 1 - phase1 * 2);
+  const vignetteOp   = Math.max(0, 1 - phase2);
+  const eyebrowOp    = Math.max(0, 1 - phase1 * 3);
+  const tagOp        = Math.max(0, 1 - phase1 * 4);
+  const folderOp     = Math.max(0, 1 - phase1 * 2);
 
   const LETTERS = [
-    {ch:'S'},{ch:'U'},{ch:'H'},{ch:'I'},{ch:'T',isT:true},
-    {ch:'\u00A0', sp:true},
+    {ch:'S'},{ch:'U'},{ch:'H'},{ch:'I'},{ch:'T'},
+    {ch:'\u00A0'},
     {ch:'A'},{ch:'M'},{ch:'I'},{ch:'N'},{ch:'.'},
   ];
 
   return (
-    <section ref={sectionRef} id="top" style={{height:'420vh', position:'relative'}}>
+    <section ref={sectionRef} id="top" style={{height:'600vh', position:'relative'}}>
       <div style={{
         position:'sticky', top:0, height:'100vh', overflow:'hidden',
         background:'#000711', display:'flex', alignItems:'center', justifyContent:'center',
@@ -126,10 +125,10 @@ const HeroComponent = ({ onLightMode }) => {
         {/* Vignette */}
         <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,rgba(0,7,17,0.55) 0%,transparent 35%,rgba(0,7,17,0.7) 100%)',pointerEvents:'none',zIndex:1}}/>
 
-        {/* Main content — zooms on scroll */}
+        {/* Main content — zooms on scroll, origin on "A" */}
         <div style={{
           position:'relative', zIndex:2, textAlign:'center',
-          transformOrigin:'center center',
+          transformOrigin:'58% center',
           transform:`scale(${globalScale})`, willChange:'transform',
         }}>
           {/* Eyebrow */}
@@ -152,10 +151,7 @@ const HeroComponent = ({ onLightMode }) => {
                 <span key={i} style={{
                   color:'#ffffff',
                   display:'inline-block',
-                  transform: 'none',
-                  opacity: phase2 > 0 ? otherOp : 1,
                   transformOrigin:'center bottom',
-                  
                   position:'relative',
                   transition:'opacity 0.04s',
                 }}>{l.ch}</span>

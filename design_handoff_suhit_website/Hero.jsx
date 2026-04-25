@@ -75,7 +75,7 @@ const HeroComponent = ({ onLightMode }) => {
   const phase1 = Math.min(1, progress / 0.50);
   const phase2 = Math.max(0, Math.min(1, (progress - 0.50) / 0.20));
 
-  const globalScale = 1 + phase1 * 75;        // 1→76x: "A" fills viewport
+  const globalScale = 1 + phase1 * 84;        // 1→85x: "A" fills viewport
   const contentOp    = Math.max(0, 1 - phase2);
   const blobOp       = Math.max(0, 1 - phase1 * 2);
   const vignetteOp   = Math.max(0, 1 - phase2);

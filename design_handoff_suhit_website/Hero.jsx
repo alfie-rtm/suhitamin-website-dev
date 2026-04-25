@@ -62,7 +62,7 @@ const HeroComponent = ({ onLightMode }) => {
       const scrolled = -rect.top;
       const p = Math.max(0, Math.min(1, scrolled / (sH - window.innerHeight)));
       setProgress(p);
-      if (onLightMode) onLightMode(p > 0.55);
+      if (onLightMode) onLightMode(p > 0.65);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -77,17 +77,18 @@ const HeroComponent = ({ onLightMode }) => {
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
 
-  // Phase 1 (0-35%): Zoom "A" to fill viewport — scale 1→300
-  // Phase 2 (35-55%): Content fades out
-  // Phase 3 (55-75%): Background transitions dark → white
-  const phase1 = Math.min(1, progress / 0.35);
-  const phase2 = Math.max(0, Math.min(1, (progress - 0.35) / 0.20));
-  const phase3 = Math.max(0, Math.min(1, (progress - 0.55) / 0.20));
+  // SLOW, GENTLE zoom:
+  // Phase 1 (0-50%): "A" zooms to fill viewport — scale 1→120
+  // Phase 2 (50-70%): All content fades out
+  // Phase 3 (70-90%): Background transitions dark → white
+  const phase1 = Math.min(1, progress / 0.50);
+  const phase2 = Math.max(0, Math.min(1, (progress - 0.50) / 0.20));
+  const phase3 = Math.max(0, Math.min(1, (progress - 0.70) / 0.20));
 
-  const globalScale = 1 + phase1 * 300;
-  const contentOp   = Math.max(0, 1 - phase2);
-  const blobOp      = Math.max(0, 1 - phase1 * 2);
-  const vignetteOp  = Math.max(0, 1 - phase2 * 1.5);
+  const headingScale = 1 + phase1 * 120;
+  const contentOp    = Math.max(0, 1 - phase2);
+  const blobOp       = Math.max(0, 1 - phase1 * 1.5);
+  const vignetteOp   = Math.max(0, 1 - phase2);
 
   // Background: #000711 → #f2f4f8
   const bgR = Math.round(242 * phase3);
@@ -112,7 +113,7 @@ const HeroComponent = ({ onLightMode }) => {
   ];
 
   return (
-    <section ref={sectionRef} id="top" style={{height:'600vh', position:'relative'}}>
+    <section ref={sectionRef} id="top" style={{height:'800vh', position:'relative'}}>
       <div style={{
         position:'sticky', top:0, height:'100vh', overflow:'hidden',
         background: bgColor, display:'flex', alignItems:'center', justifyContent:'center',
@@ -134,24 +135,37 @@ const HeroComponent = ({ onLightMode }) => {
         {/* Vignette — fades as bg lightens */}
         <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,rgba(0,7,17,0.55) 0%,transparent 35%,rgba(0,7,17,0.7) 100%)',pointerEvents:'none',zIndex:1,opacity:vignetteOp}}/>
 
-        {/* Main content */}
+        {/* Main content — everything fades together */}
         <div style={{
           position:'relative', zIndex:2, textAlign:'center',
-          transformOrigin:'52% center',
-          transform:`scale(${globalScale})`, willChange:'transform',
           opacity: contentOp,
-          transition: 'opacity 0.08s linear',
+          transition: 'opacity 0.15s linear',
         }}>
           <p style={{ fontSize:13, textTransform:'uppercase', letterSpacing:'0.3em', color: eyebrow, marginBottom:22, fontFamily:"'Saira',sans-serif", fontWeight:600, whiteSpace:'nowrap' }}>Forbes 30 Under 30 — Exited Founder</p>
 
-          <div style={{position:'relative'}}>
-            <h1 style={{ fontFamily:"'Saira',sans-serif", fontWeight:800, lineHeight:0.88, letterSpacing:'-0.04em', margin:0, display:'flex', alignItems:'baseline', justifyContent:'center', whiteSpace:'nowrap', position:'relative', fontSize:'clamp(5rem,9.5vw,10.5rem)', color: textBase }}>
+          {/* Heading wrapper — zooms into "A" */}
+          <div style={{position:'relative', display:'inline-block'}}>
+            <h1 style={{
+              fontFamily:"'Saira',sans-serif", fontWeight:800,
+              lineHeight:0.88, letterSpacing:'-0.04em', margin:0,
+              display:'flex', alignItems:'baseline', justifyContent:'center',
+              whiteSpace:'nowrap', position:'relative',
+              fontSize:'clamp(5rem,9.5vw,10.5rem)', color: textBase,
+              transformOrigin:'54% center',
+              transform:`scale(${headingScale})`, willChange:'transform',
+            }}>
               {LETTERS.map((l, i) => (
                 <span key={i} style={{display:'inline-block',transformOrigin:'center bottom'}}>{l.ch}</span>
               ))}
             </h1>
 
-            <div style={{ position:'absolute', inset:0, pointerEvents: contentOp < 0.05 ? 'none' : 'auto', transform: `translate(${mouse.x * -8}px, ${mouse.y * -8}px)`, transition:'transform 0.4s ease-out' }}>
+            {/* Folders — positioned relative to heading, move with it */}
+            <div style={{
+              position:'absolute', inset:0,
+              pointerEvents: contentOp < 0.05 ? 'none' : 'auto',
+              transform: `translate(${mouse.x * -8}px, ${mouse.y * -8}px)`,
+              transition:'transform 0.4s ease-out',
+            }}>
               {FOLDERS.map(f => (
                 <div key={f.id} style={{position:'absolute', left:'50%', top:'50%', transform:`translate(${f.x}, ${f.y})`}}>
                   <MacFolder label={f.label} href={`#${f.id}`} dur={f.dur} delay={f.delay} rot={f.rot} drift={f.drift}/>
@@ -171,7 +185,7 @@ const HeroComponent = ({ onLightMode }) => {
           </div>
         </div>
 
-        <div style={{ position:'absolute',bottom:110,left:'50%',transform:'translateX(-50%)', zIndex:3, display:'flex', flexDirection:'column', alignItems:'center', gap:6, opacity:Math.max(0,1-progress*5) }}>
+        <div style={{ position:'absolute',bottom:110,left:'50%',transform:'translateX(-50%)', zIndex:3, display:'flex', flexDirection:'column', alignItems:'center', gap:6, opacity:Math.max(0,1-progress*4) }}>
           <div style={{width:1,height:32,background:scrollLn}}/>
           <span style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.2em',color:scrollLbl,fontFamily:"'Saira',sans-serif"}}>Scroll</span>
         </div>

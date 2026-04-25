@@ -1,9 +1,9 @@
 // Hero.jsx — Full-screen with folder nav, no separate nav bar
 const FOLDERS = [
-  { id:'projects',    label:'Projects',    emoji:'📁', x:'-52%', y:'-185%' },
-  { id:'investing',   label:'Investing',   emoji:'📁', x:'38%',  y:'-195%' },
-  { id:'youtube',     label:'Content',     emoji:'📁', x:'-55%', y:'118%'  },
-  { id:'speaking',    label:'Speaking',    emoji:'📁', x:'40%',  y:'108%'  },
+  { id:'projects',    label:'Projects',    emoji:'📁', x:'-500%', y:'-250%' },
+  { id:'investing',   label:'Investing',   emoji:'📁', x:'500%',  y:'-195%' },
+  { id:'youtube',     label:'Content',     emoji:'📁', x:'-400%', y:'300%'  },
+  { id:'speaking',    label:'Speaking',    emoji:'📁', x:'350%',  y:'250%'  },
 ];
 
 const MacFolder = ({ label, href, style }) => {
@@ -185,13 +185,13 @@ const HeroComponent = ({ onLightMode }) => {
             lineHeight:1.75, fontFamily:"'Saira',sans-serif",
             margin:'26px auto 0', opacity:eyebrowOp,
           }}>
-            Built and sold a multi-7-figure agency. Now I write, invest,
-            and help operators build category-defining companies.
+            Built and sold a multi-7-figure agency at 24. Now I invest,
+            and help scaling entrepreneurs build category-defining agencies.
           </p>
 
           {/* Tags */}
           <div style={{display:'flex',flexWrap:'wrap',gap:8,marginTop:18,justifyContent:'center',opacity:tagOp}}>
-            {['Founder','Investor','Speaker','Operator'].map(w=>(
+            {['Founder','Investor','Speaker'].map(w=>(
               <span key={w} style={{
                 padding:'5px 13px',fontSize:9,textTransform:'uppercase',
                 letterSpacing:'0.12em',borderRadius:2,

@@ -87,8 +87,8 @@ const MacFolder = ({ label, href, dur, delay, rot, drift }) => {
               opacity: hov ? 1 : 0.7,
               transition:'opacity 0.2s',
             }}/>
-            <div style={{width:20, height:3, borderRadius:1, background:'rgba(255,255,255,0.3)'}}/
-            <div style={{width:24, height:2, borderRadius:1, background:'rgba(255,255,255,0.2)'}}/
+            <div style={{width:20, height:3, borderRadius:1, background:'rgba(255,255,255,0.3)'}}/>
+            <div style={{width:24, height:2, borderRadius:1, background:'rgba(255,255,255,0.2)'}}/>
           </div>
         </div>
       </div>
@@ -277,7 +277,7 @@ const LETTERS = [
           zIndex:3,display:'flex',flexDirection:'column',alignItems:'center',gap:6,
           opacity:Math.max(0,1-progress*6),
         }}>
-          <div style={{width:1,height:32,background:'rgba(255,255,255,0.2)'}}/
+          <div style={{width:1,height:32,background:'rgba(255,255,255,0.2)'}}/>
           <span style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.2em',color:'rgba(255,255,255,0.25)',fontFamily:"'Saira',sans-serif"}}>Scroll</span>
         </div>
       </div>

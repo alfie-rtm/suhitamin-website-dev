@@ -1,10 +1,10 @@
 // Hero.jsx — Full-screen with folder nav, no separate nav bar
 // Floating folders — organic drift + mouse parallax
 const FOLDERS = [
-  { id:'projects',  label:'Projects',  x:'-500%', y:'-250%', dur:'5.7s', delay:'0s',   rot:-4, drift:[{x:4,y:-5,r:1},{x:-3,y:3,r:-0.5},{x:5,y:-4,r:0.8},{x:-2,y:2,r:-1}] },
-  { id:'investing', label:'Investing', x:'500%',  y:'-195%', dur:'6.3s', delay:'1.2s', rot:3,  drift:[{x:-5,y:-3,r:-1},{x:3,y:4,r:0.5},{x:-4,y:-5,r:-0.8},{x:2,y:3,r:1.2}] },
-  { id:'youtube',   label:'Content',   x:'-400%', y:'300%',  dur:'4.9s', delay:'2.4s', rot:-2, drift:[{x:3,y:4,r:0.5},{x:-4,y:-3,r:-1},{x:2,y:5,r:0.8},{x:-3,y:-2,r:-0.5}] },
-  { id:'speaking',  label:'Speaking',  x:'350%',  y:'250%',  dur:'7.1s', delay:'0.8s', rot:5,  drift:[{x:-3,y:-4,r:-0.8},{x:4,y:2,r:1},{x:-2,y:-5,r:-1.2},{x:3,y:3,r:0.5}] },
+  { id:'projects',  label:'Projects',  x:'-500%', y:'-250%', dur:'8s', delay:'0s',   rot:-3, drift:[{x:2,y:-3,r:0.3},{x:-1,y:2,r:-0.2},{x:2,y:-2,r:0.2},{x:-1,y:1,r:-0.3}] },
+  { id:'investing', label:'Investing', x:'500%',  y:'-195%', dur:'9.5s', delay:'1.5s', rot:2,  drift:[{x:-2,y:-1,r:-0.3},{x:1,y:2,r:0.2},{x:-1,y:-2,r:-0.2},{x:2,y:1,r:0.3}] },
+  { id:'youtube',   label:'Content',   x:'-400%', y:'300%',  dur:'7s', delay:'3s',   rot:-1, drift:[{x:1,y:2,r:0.2},{x:-2,y:-1,r:-0.3},{x:1,y:2,r:0.3},{x:-1,y:-1,r:-0.2}] },
+  { id:'speaking',  label:'Speaking',  x:'350%',  y:'250%',  dur:'10s', delay:'0.5s', rot:3,  drift:[{x:-1,y:-2,r:-0.2},{x:2,y:1,r:0.3},{x:-2,y:-1,r:-0.3},{x:1,y:2,r:0.2}] },
 ];
 
 const MacFolder = ({ label, href, dur, delay, rot, drift }) => {

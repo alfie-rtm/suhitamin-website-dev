@@ -1,9 +1,12 @@
-// Hero.jsx — Zoom into "A" of "AMIN" filling viewport, crisp text, dark-to-white via letter not bg
+// Hero.jsx — Full-screen with folder nav, no separate nav bar
+// Floating folders — organic drift + mouse parallax
+// Zoom effect: "A" in "Amin" fills viewport on scroll, transitioning to WHITE
+
 const FOLDERS = [
-  { id:'projects',  label:'Projects',  x:'-420%', y:'-220%', dur:'8s', delay:'0s',   rot:-3, drift:[{x:2,y:-3,r:0.3},{x:-1,y:2,r:-0.2},{x:2,y:-2,r:0.2},{x:-1,y:1,r:-0.3}] },
-  { id:'investing', label:'Investing', x:'420%',  y:'-180%', dur:'9.5s', delay:'1.5s', rot:2,  drift:[{x:-2,y:-1,r:-0.3},{x:1,y:2,r:0.2},{x:-1,y:-2,r:-0.2},{x:2,y:1,r:0.3}] },
-  { id:'youtube',   label:'Content',   x:'-350%', y:'260%',  dur:'7s', delay:'3s',   rot:-1, drift:[{x:1,y:2,r:0.2},{x:-2,y:-1,r:-0.3},{x:1,y:2,r:0.3},{x:-1,y:-1,r:-0.2}] },
-  { id:'speaking',  label:'Speaking',  x:'300%',  y:'220%',  dur:'10s', delay:'0.5s', rot:3,  drift:[{x:-1,y:-2,r:-0.2},{x:2,y:1,r:0.3},{x:-2,y:-1,r:-0.3},{x:1,y:2,r:0.2}] },
+  { id:'projects',  label:'Projects',  x:'-500%', y:'-250%', dur:'8s', delay:'0s',   rot:-3, drift:[{x:2,y:-3,r:0.3},{x:-1,y:2,r:-0.2},{x:2,y:-2,r:0.2},{x:-1,y:1,r:-0.3}] },
+  { id:'investing', label:'Investing', x:'500%',  y:'-195%', dur:'9.5s', delay:'1.5s', rot:2,  drift:[{x:-2,y:-1,r:-0.3},{x:1,y:2,r:0.2},{x:-1,y:-2,r:-0.2},{x:2,y:1,r:0.3}] },
+  { id:'youtube',   label:'Content',   x:'-400%', y:'300%',  dur:'7s', delay:'3s',   rot:-1, drift:[{x:1,y:2,r:0.2},{x:-2,y:-1,r:-0.3},{x:1,y:2,r:0.3},{x:-1,y:-1,r:-0.2}] },
+  { id:'speaking',  label:'Speaking',  x:'350%',  y:'250%',  dur:'10s', delay:'0.5s', rot:3,  drift:[{x:-1,y:-2,r:-0.2},{x:2,y:1,r:0.3},{x:-2,y:-1,r:-0.3},{x:1,y:2,r:0.2}] },
 ];
 
 const MacFolder = ({ label, href, dur, delay, rot, drift }) => {
@@ -59,7 +62,7 @@ const HeroComponent = ({ onLightMode }) => {
       const scrolled = -rect.top;
       const p = Math.max(0, Math.min(1, scrolled / (sH - window.innerHeight)));
       setProgress(p);
-      if (onLightMode) onLightMode(p > 0.78);
+      if (onLightMode) onLightMode(p > 0.80);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -74,20 +77,34 @@ const HeroComponent = ({ onLightMode }) => {
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
 
-  // Phase 1 (0-55%): "A" zooms to fill viewport
-  // Phase 2 (55-75%): All content fades out
-  // Phase 3 (75-90%): Transition to light mode signal
-  const phase1 = Math.min(1, progress / 0.55);
-  const phase2 = Math.max(0, Math.min(1, (progress - 0.55) / 0.20));
-  const phase3 = Math.max(0, Math.min(1, (progress - 0.75) / 0.15));
+  // SLOW, GENTLE zoom:
+  // Phase 1 (0-65%): "A" zooms to fill viewport — scale 1→81
+  // Phase 2 (65-80%): All content fades out
+  // Phase 3 (80-95%): Background transitions dark → white
+  const phase1 = Math.min(1, progress / 0.65);
+  const phase2 = Math.max(0, Math.min(1, (progress - 0.65) / 0.15));
+  const phase3 = Math.max(0, Math.min(1, (progress - 0.80) / 0.15));
 
-  // CRISP TEXT: Large base font (5x) + moderate scale (3x) = 15x total zoom
-  // Base: clamp(25rem, 47.5vw, 52.5rem) — rendered large, sharp texture
-  // Scale: 0.2 → 3.0 — only 15x range, minimal pixelation
-  const headingScale = 0.2 + phase1 * 2.8;
+  const headingScale = 1 + phase1 * 80;
   const contentOp    = Math.max(0, 1 - phase2);
   const blobOp       = Math.max(0, 1 - phase1);
   const vignetteOp   = Math.max(0, 1 - phase2);
+
+  // Background: #000711 → #f2f4f8
+  const bgR = Math.round(242 * phase3);
+  const bgG = Math.round(7 + 237 * phase3);
+  const bgB = Math.round(17 + 231 * phase3);
+  const bgColor = `rgb(${bgR}, ${bgG}, ${bgB})`;
+
+  // Text adapts to bg lightness
+  const isLight = phase3 > 0.5;
+  const textBase = isLight ? '#08101e' : '#ffffff';
+  const textDim  = isLight ? 'rgba(8,16,30,0.55)' : 'rgba(255,255,255,0.65)';
+  const tagClr   = isLight ? 'rgba(8,16,30,0.55)' : 'rgba(255,255,255,0.55)';
+  const tagBdr   = isLight ? 'rgba(8,16,30,0.15)' : 'rgba(255,255,255,0.15)';
+  const eyebrow  = isLight ? '#004ecc' : '#0066ff';
+  const scrollLn = isLight ? 'rgba(8,16,30,0.2)' : 'rgba(255,255,255,0.2)';
+  const scrollLbl= isLight ? 'rgba(8,16,30,0.25)' : 'rgba(255,255,255,0.25)';
 
   const LETTERS = [
     {ch:'S'},{ch:'U'},{ch:'H'},{ch:'I'},{ch:'T'},
@@ -96,10 +113,11 @@ const HeroComponent = ({ onLightMode }) => {
   ];
 
   return (
-    <section ref={sectionRef} id="top" style={{height:'700vh', position:'relative'}}>
+    <section ref={sectionRef} id="top" style={{height:'800vh', position:'relative'}}>
       <div style={{
         position:'sticky', top:0, height:'100vh', overflow:'hidden',
-        background:'#000711', display:'flex', alignItems:'center', justifyContent:'center',
+        background: bgColor, display:'flex', alignItems:'center', justifyContent:'center',
+        transition: 'background 0.1s linear',
       }}>
         <style>{`
           @keyframes bH1{0%,100%{transform:translateY(-50%) scale(1);opacity:.8}50%{transform:translateY(-56%) scale(1.1);opacity:.55}}
@@ -114,45 +132,34 @@ const HeroComponent = ({ onLightMode }) => {
           <div style={{position:'absolute',width:'500px',height:'500px',borderRadius:'50%',background:'radial-gradient(circle,rgba(86,148,255,0.12) 0%,transparent 65%)',top:'8%',left:'50%',animation:'bH3 7s ease-in-out infinite'}}/>
         </div>
 
-        {/* Vignette — fades as zoom intensifies */}
+        {/* Vignette — fades as bg lightens */}
         <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,rgba(0,7,17,0.55) 0%,transparent 35%,rgba(0,7,17,0.7) 100%)',pointerEvents:'none',zIndex:1,opacity:vignetteOp}}/>
 
-        {/* Content wrapper — everything fades together */}
+        {/* Main content — everything fades together */}
         <div style={{
           position:'relative', zIndex:2, textAlign:'center',
           opacity: contentOp,
           transition: 'opacity 0.15s linear',
         }}>
-          {/* Eyebrow — fades early so only heading dominates */}
-          <p style={{
-            fontSize:13, textTransform:'uppercase', letterSpacing:'0.3em',
-            color:'#0066ff', marginBottom:22, fontFamily:"'Saira',sans-serif",
-            fontWeight:600, whiteSpace:'nowrap',
-            opacity: Math.max(0, 1 - phase1 * 2),
-          }}>Forbes 30 Under 30 — Exited Founder</p>
+          <p style={{ fontSize:13, textTransform:'uppercase', letterSpacing:'0.3em', color: eyebrow, marginBottom:22, fontFamily:"'Saira',sans-serif", fontWeight:600, whiteSpace:'nowrap' }}>Forbes 30 Under 30 — Exited Founder</p>
 
-          {/* Heading — zooms into "A" */}
-          <div style={{
-            position:'relative', display:'inline-block',
-            transformOrigin:'56% center',
-            transform:`scale(${headingScale})`,
-            willChange:'transform',
-          }}>
+          {/* Heading wrapper — zooms into "A" */}
+          <div style={{position:'relative', display:'inline-block'}}>
             <h1 style={{
               fontFamily:"'Saira',sans-serif", fontWeight:800,
               lineHeight:0.88, letterSpacing:'-0.04em', margin:0,
               display:'flex', alignItems:'baseline', justifyContent:'center',
               whiteSpace:'nowrap', position:'relative',
-              // 5x base font — rendered large for crisp scaling
-              fontSize:'clamp(25rem, 47.5vw, 52.5rem)',
-              color:'#ffffff',
+              fontSize:'clamp(5rem,9.5vw,10.5rem)', color: textBase,
+              transformOrigin:'54% center',
+              transform:`scale(${headingScale})`, willChange:'transform',
             }}>
               {LETTERS.map((l, i) => (
                 <span key={i} style={{display:'inline-block',transformOrigin:'center bottom'}}>{l.ch}</span>
               ))}
             </h1>
 
-            {/* Folders — positioned relative to heading, scale with it */}
+            {/* Folders — positioned relative to heading, move with it */}
             <div style={{
               position:'absolute', inset:0,
               pointerEvents: contentOp < 0.05 ? 'none' : 'auto',
@@ -167,28 +174,20 @@ const HeroComponent = ({ onLightMode }) => {
             </div>
           </div>
 
-          {/* Subtitle — fades early */}
-          <p style={{
-            maxWidth:480, fontSize:16, color:'rgba(255,255,255,0.65)',
-            lineHeight:1.75, fontFamily:"'Saira',sans-serif",
-            margin:'26px auto 0',
-            opacity: Math.max(0, 1 - phase1 * 1.8),
-          }}>
+          <p style={{ maxWidth:480, fontSize:16, color: textDim, lineHeight:1.75, fontFamily:"'Saira',sans-serif", margin:'26px auto 0' }}>
             Built and sold a multi-7-figure agency at 24. Now I invest, and help scaling entrepreneurs build category-defining agencies.
           </p>
 
-          {/* Tags — fade early */}
-          <div style={{display:'flex',flexWrap:'wrap',gap:8,marginTop:18,justifyContent:'center', opacity: Math.max(0, 1 - phase1 * 2)}}>
+          <div style={{display:'flex',flexWrap:'wrap',gap:8,marginTop:18,justifyContent:'center'}}>
             {['Founder','Investor','Speaker'].map(w=> (
-              <span key={w} style={{ padding:'5px 13px', fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', borderRadius:2, border:'1px solid rgba(255,255,255,0.15)', color:'rgba(255,255,255,0.55)', fontFamily:"'Saira',sans-serif" }}>{w}</span>
+              <span key={w} style={{ padding:'5px 13px', fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', borderRadius:2, border:`1px solid ${tagBdr}`, color: tagClr, fontFamily:"'Saira',sans-serif" }}>{w}</span>
             ))}
           </div>
         </div>
 
-        {/* Scroll cue */}
         <div style={{ position:'absolute',bottom:110,left:'50%',transform:'translateX(-50%)', zIndex:3, display:'flex', flexDirection:'column', alignItems:'center', gap:6, opacity:Math.max(0,1-progress*4) }}>
-          <div style={{width:1,height:32,background:'rgba(255,255,255,0.2)'}}/>
-          <span style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.2em',color:'rgba(255,255,255,0.25)',fontFamily:"'Saira',sans-serif"}}>Scroll</span>
+          <div style={{width:1,height:32,background:scrollLn}}/>
+          <span style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.2em',color:scrollLbl,fontFamily:"'Saira',sans-serif"}}>Scroll</span>
         </div>
       </div>
     </section>

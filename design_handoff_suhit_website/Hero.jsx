@@ -114,9 +114,9 @@ const HeroComponent = ({ onLightMode }) => {
         {/* Main content — zooms on scroll, origin on "A" */}
         <div style={{
           position:'relative', zIndex:2, textAlign:'center',
-          transformOrigin:'58% center',
+          transformOrigin:'55% center',
           transform:`scale(${globalScale})`, willChange:'transform',
-        }}>
+        }}>>
           {/* Eyebrow */}
           <p style={{
             fontSize:13, textTransform:'uppercase', letterSpacing:'0.3em',
@@ -124,8 +124,8 @@ const HeroComponent = ({ onLightMode }) => {
             fontWeight:600, opacity:eyebrowOp, whiteSpace:'nowrap',
           }}>Forbes 30 Under 30 — Exited Founder</p>
 
-          {/* Title — each letter individually scaled */}
-          <div style={{position:'relative'}}>
+          {/* Heading */}
+          <div style={{position:'relative', display:'inline-block'}}>
             <h1 style={{
               fontFamily:"'Saira',sans-serif", fontWeight:800,
               lineHeight:0.88, letterSpacing:'-0.04em', margin:0,

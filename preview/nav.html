@@ -1,0 +1,143 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>
+  @font-face { font-family:'Saira'; src:url('../fonts/Saira-VariableFont.ttf') format('truetype'); font-weight:100 900; }
+  * { box-sizing:border-box; margin:0; }
+
+  body { background:#000711; min-height:280px; font-family:'Saira',sans-serif; overflow:hidden; position:relative; }
+
+  /* ── Background animated blobs ── */
+  .bg-blobs { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+  .blob-l {
+    position:absolute; width:420px; height:420px; border-radius:50%;
+    background:radial-gradient(circle, rgba(0,102,255,0.30) 0%, transparent 68%);
+    top:50%; left:-80px; transform:translateY(-50%);
+    animation: bL 9s ease-in-out infinite;
+  }
+  .blob-r {
+    position:absolute; width:360px; height:360px; border-radius:50%;
+    background:radial-gradient(circle, rgba(0,102,255,0.22) 0%, transparent 68%);
+    top:50%; right:-60px; transform:translateY(-50%);
+    animation: bR 11s ease-in-out infinite;
+  }
+  .blob-c {
+    position:absolute; width:280px; height:280px; border-radius:50%;
+    background:radial-gradient(circle, rgba(86,148,255,0.14) 0%, transparent 65%);
+    top:20%; left:50%; transform:translateX(-50%);
+    animation: bC 7s ease-in-out infinite;
+  }
+  @keyframes bL { 0%,100%{transform:translateY(-50%) scale(1);opacity:.85} 50%{transform:translateY(-58%) scale(1.1);opacity:.6} }
+  @keyframes bR { 0%,100%{transform:translateY(-50%) scale(1);opacity:.7} 55%{transform:translateY(-43%) scale(1.08);opacity:.5} }
+  @keyframes bC { 0%,100%{transform:translateX(-50%) scale(1);opacity:.6} 50%{transform:translateX(-45%) scale(1.15);opacity:.35} }
+
+  /* Hero copy */
+  .hero {
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-58%);
+    text-align:center; pointer-events:none;
+  }
+  .hero p { font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#0066ff; font-weight:600; margin-bottom:10px; }
+  .hero h1 { font-family:'Saira',sans-serif; font-size:72px; font-weight:800; letter-spacing:-0.04em; line-height:0.88; color:#fff; text-transform:uppercase; }
+  .hero h1 span { color:#0066ff; }
+
+  /* ── Floating bottom nav ── */
+  .nav-shell {
+    position:absolute; bottom:20px;
+    left:50%; transform:translateX(-50%);
+    width:560px; z-index:10; border-radius:2px;
+    border:1px solid rgba(255,255,255,0.12);
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease,
+                border-color 0.12s ease;
+  }
+  .nav-shell.hidden { transform:translateX(-50%) translateY(72px); opacity:0; pointer-events:none; }
+  .nav-shell:hover { border-color:rgba(255,255,255,0.28); }
+
+  .nav-inner {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:9px 18px;
+    background:rgba(0,7,17,0.65);
+    backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    border-radius:1px;
+  }
+
+  /* Logo */
+  .logo img { height:27px; filter:invert(1); display:block; }
+
+  /* Nav links */
+  .links { display:flex; gap:24px; }
+  .nav-link {
+    font-size:12px; color:rgba(255,255,255,0.58); text-decoration:none;
+    padding-bottom:2px; position:relative; font-weight:500; font-family:'Saira',sans-serif;
+    transition:color 0.25s;
+  }
+  .nav-link::after {
+    content:''; position:absolute; bottom:0; left:0; width:0; height:1px;
+    background:#fff; transition:width 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+  .nav-link:hover { color:#fff; }
+  .nav-link:hover::after { width:100%; }
+
+  /* CTA */
+  .cta {
+    font-size:11px; font-weight:700; font-family:'Saira',sans-serif;
+    padding:7px 16px; border-radius:2px; border:none;
+    background-color:#0066ff; color:#fff;
+    text-decoration:none; cursor:pointer;
+    position:relative; overflow:hidden;
+    letter-spacing:0.06em; text-transform:uppercase;
+    transition:color 0.35s; display:inline-block;
+    isolation:isolate;
+  }
+  .cta::before {
+    content:''; position:absolute; inset:0; left:-101%;
+    background:#f2f4f8;
+    transition:left 0.38s cubic-bezier(0.4,0,0.2,1); z-index:-1;
+  }
+  .cta:hover { color:#08101e; }
+  .cta:hover::before { left:0; }
+
+  /* Demo toggle */
+  .ctrl-btn {
+    position:absolute; bottom:22px; right:16px;
+    font-size:9px; font-family:'Saira',sans-serif; text-transform:uppercase;
+    letter-spacing:0.12em; color:rgba(255,255,255,0.35);
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.10);
+    padding:5px 10px; border-radius:2px; cursor:pointer; z-index:20;
+  }
+</style></head><body>
+
+<div class="bg-blobs">
+  <div class="blob-l"></div>
+  <div class="blob-r"></div>
+  <div class="blob-c"></div>
+</div>
+
+<div class="hero">
+  <p>Forbes 30 Under 30 — Exited Founder</p>
+  <h1>Suhit<span>.</span></h1>
+</div>
+
+<div class="nav-shell" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#"><img src="../assets/logo.png" alt="Suhit Amin"></a>
+    <div class="links">
+      <a href="#" class="nav-link">Projects</a>
+      <a href="#" class="nav-link">Story</a>
+      <a href="#" class="nav-link">Speaking</a>
+      <a href="#" class="nav-link">Newsletter</a>
+    </div>
+    <a href="#" class="cta">Get in touch</a>
+  </div>
+</div>
+
+<button class="ctrl-btn" id="toggleBtn">Hide nav ↓</button>
+
+<script>
+const nav = document.getElementById('nav');
+const btn = document.getElementById('toggleBtn');
+let hidden = false;
+btn.addEventListener('click', () => {
+  hidden = !hidden;
+  nav.classList.toggle('hidden', hidden);
+  btn.textContent = hidden ? 'Show nav ↑' : 'Hide nav ↓';
+});
+</script>
+</body></html>

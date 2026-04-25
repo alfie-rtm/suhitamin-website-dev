@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suhit Amin — Personal Brand Website</title>
+<style>
+  @font-face { font-family:'Saira'; src:url('fonts/Saira-VariableFont.ttf') format('truetype'); font-weight:100 900; font-style:normal; font-display:swap; }
+  @font-face { font-family:'Saira'; src:url('fonts/Saira-Italic-VariableFont.ttf') format('truetype'); font-weight:100 900; font-style:italic; font-display:swap; }
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body {
+    background:#000711; color:#fff;
+    font-family:'Saira',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    transition:background 0.5s ease, color 0.5s ease;
+  }
+  body.light { background:#f2f4f8; color:#08101e; }
+  body::before {
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:998;
+    opacity:0.035; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  ::selection { background:#0066ff; color:#fff; }
+
+  /* Apple-style highlight on key phrases */
+  .highlight {
+    background:linear-gradient(to right, rgba(0,102,255,0.25), rgba(0,102,255,0.12));
+    border-radius:2px; padding:0 3px; margin:0 -3px;
+  }
+
+  /* Dark interlude section */
+  .dark-interlude {
+    background:#000711;
+    transition:background 0.5s ease;
+  }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="Nav.jsx"></script>
+<script type="text/babel" src="Hero.jsx"></script>
+<script type="text/babel" src="Marquee.jsx"></script>
+<script type="text/babel" src="Projects.jsx"></script>
+<script type="text/babel" src="Videos.jsx"></script>
+<script type="text/babel" src="Story.jsx"></script>
+<script type="text/babel" src="Testimonials.jsx"></script>
+<script type="text/babel" src="Speaking.jsx"></script>
+<script type="text/babel" src="Newsletter.jsx"></script>
+<script type="text/babel" src="Footer.jsx"></script>
+
+<script type="text/babel">
+// Dark interlude — a dramatic dark beat between light sections
+const DarkInterlude = () => {
+  const ref = React.useRef(null);
+  const [vis, setVis] = React.useState(0);
+
+  React.useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => setVis(e.intersectionRatio), { threshold: Array.from({length:20},(_,i)=>i/20) });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <section ref={ref} style={{
+      background:'#000711', padding:'120px 48px', textAlign:'center',
+      position:'relative', overflow:'hidden',
+    }}>
+      {/* Blob */}
+      <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',width:'600px',height:'600px',borderRadius:'50%',background:'radial-gradient(circle,rgba(0,102,255,0.18) 0%,transparent 65%)',filter:'blur(40px)',pointerEvents:'none'}}/>
+      <div style={{maxWidth:800,margin:'0 auto',position:'relative',opacity:vis,transition:'opacity 0.4s',transform:`translateY(${(1-vis)*30}px)`,transitionProperty:'opacity,transform'}}>
+        <p style={{fontSize:11,textTransform:'uppercase',letterSpacing:'0.3em',color:'#0066ff',marginBottom:24,fontFamily:"'Saira',sans-serif",fontWeight:600}}>The Mission</p>
+        <h2 style={{fontFamily:"'Saira',sans-serif",fontSize:'clamp(2.5rem,5vw,4.5rem)',fontWeight:800,letterSpacing:'-0.04em',lineHeight:1,color:'#fff',textTransform:'uppercase',marginBottom:24}}>
+          ZERO TO EXIT.<br/>
+          <span style={{color:'rgba(255,255,255,0.35)',fontWeight:300,fontSize:'0.65em',letterSpacing:'-0.02em',fontStyle:'italic',textTransform:'none'}}>Then do it again.</span>
+        </h2>
+        <div style={{width:1,height:64,background:'linear-gradient(to bottom,#0066ff,transparent)',margin:'32px auto 0'}}/>
+      </div>
+    </section>
+  );
+};
+
+const App = () => {
+  const [lightMode, setLightMode] = React.useState(false);
+
+  React.useEffect(() => {
+    document.body.classList.toggle('light', lightMode);
+  }, [lightMode]);
+
+  return (
+    <div>
+      {/* Chapter 1 — Dark: folders ARE the nav */}
+      <HeroComponent onLightMode={setLightMode} />
+
+      {/* Chapter 2 — Light (triggered by hero zoom) */}
+      <MarqueeComponent lightMode={lightMode} />
+      <ProjectsComponent lightMode={lightMode} />
+      <VideosComponent lightMode={lightMode} />
+
+      {/* Dark interlude — resets to dark */}
+      <DarkInterlude />
+
+      {/* Chapter 3 — Dark */}
+      <StoryComponent lightMode={false} />
+      <TestimonialsComponent lightMode={false} />
+
+      {/* Chapter 4 — Light again */}
+      <SpeakingComponent lightMode={lightMode} />
+      <NewsletterComponent lightMode={lightMode} />
+      <FooterComponent lightMode={lightMode} />
+    </div>
+  );
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

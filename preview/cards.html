@@ -1,0 +1,115 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>
+  @font-face { font-family:'Saira'; src:url('../fonts/Saira-VariableFont.ttf') format('truetype'); font-weight:100 900; }
+  * { box-sizing:border-box; margin:0; }
+  body { background:#0a0f18; font-family:'Saira',sans-serif; padding:14px; display:flex; flex-direction:column; gap:12px; }
+  .row { display:flex; gap:10px; }
+  .lbl { font-size:9px; text-transform:uppercase; letter-spacing:0.15em; color:rgba(255,255,255,0.25); margin-bottom:2px; }
+
+  /* Glow border wrapper */
+  .wrap { flex:1; position:relative; border-radius:2px; padding:1px; }
+  .wrap::before { content:''; position:absolute; inset:0; border-radius:2px;
+    background:var(--glow, var(--base)); pointer-events:none; transition:background 0.12s ease; }
+
+  /* Inner surfaces */
+  .dark-inner  { position:relative; background:#000711; border-radius:1px; padding:18px; transition:background 0.4s; display:flex; flex-direction:column; }
+  .light-inner { position:relative; background:#f2f4f8; border-radius:1px; padding:18px; transition:background 0.4s; display:flex; flex-direction:column; }
+  .wrap:hover .dark-inner  { background:#04080f; }
+  .wrap:hover .light-inner { background:#eaedf3; }
+
+  /* Shared type tokens */
+  .num   { font-family:monospace; font-size:11px; color:#0066ff; }
+  .top   { display:flex; justify-content:space-between; margin-bottom:12px; }
+
+  .tag-d { font-size:9px; text-transform:uppercase; letter-spacing:0.12em; color:rgba(255,255,255,0.32); }
+  .tag-l { font-size:9px; text-transform:uppercase; letter-spacing:0.12em; color:rgba(8,16,30,0.35); }
+
+  .title-d { font-family:'Saira',sans-serif; font-size:17px; font-weight:700; color:#fff; letter-spacing:-0.02em; margin-bottom:5px; }
+  .title-l { font-family:'Saira',sans-serif; font-size:17px; font-weight:700; color:#08101e; letter-spacing:-0.02em; margin-bottom:5px; }
+
+  .body-d { font-size:11px; color:rgba(255,255,255,0.48); line-height:1.65; flex:1; }
+  .body-l { font-size:11px; color:rgba(8,16,30,0.52); line-height:1.65; flex:1; }
+
+  /* Narrow bottom link strip */
+  .link-strip-d {
+    margin-top:8px; padding-top:8px;
+    border-top:1px solid rgba(255,255,255,0.07);
+    font-size:11px; color:rgba(255,255,255,0.35);
+    display:inline-flex; align-items:center; gap:4px;
+    transition:color 0.25s;
+  }
+  .link-strip-l {
+    margin-top:8px; padding-top:8px;
+    border-top:1px solid rgba(8,16,30,0.08);
+    font-size:11px; color:#0066ff;
+    display:inline-flex; align-items:center; gap:4px;
+  }
+  .wrap:hover .link-strip-d { color:rgba(255,255,255,0.65); }
+
+  /* Quote card specifics */
+  .qmark-d { font-family:'Saira',sans-serif; font-size:42px; font-weight:800; color:#0066ff; line-height:1; }
+  .qmark-l { font-family:'Saira',sans-serif; font-size:42px; font-weight:800; color:#0066ff; line-height:1; }
+  .qtext-d  { font-size:11px; color:rgba(255,255,255,0.80); line-height:1.65; margin-top:4px; flex:1; }
+  .qtext-l  { font-size:11px; color:rgba(8,16,30,0.78); line-height:1.65; margin-top:4px; flex:1; }
+  .qname-d  { font-size:11px; font-weight:600; color:#fff; padding-top:8px; margin-top:8px; border-top:1px solid rgba(255,255,255,0.08); }
+  .qname-l  { font-size:11px; font-weight:600; color:#08101e; padding-top:8px; margin-top:8px; border-top:1px solid rgba(8,16,30,0.10); }
+  .qrole-d  { font-size:9px; color:rgba(255,255,255,0.32); margin-top:1px; }
+  .qrole-l  { font-size:9px; color:rgba(8,16,30,0.38); margin-top:1px; }
+</style></head><body>
+
+  <div class="lbl">Dark</div>
+  <div class="row">
+    <div class="wrap" style="--base:rgba(255,255,255,0.10)" id="d1">
+      <div class="dark-inner">
+        <div class="top"><span class="num">01</span><span class="tag-d">Agency</span></div>
+        <div class="title-d">Saulderson Media</div>
+        <div class="body-d">The agency I founded, scaled, and exited.</div>
+        <div class="link-strip-d">Learn more →</div>
+      </div>
+    </div>
+    <div class="wrap" style="--base:rgba(255,255,255,0.10)" id="d2">
+      <div class="dark-inner" style="background:linear-gradient(135deg,#060d1a,#000711)">
+        <div class="qmark-d">"</div>
+        <div class="qtext-d">Suhit's mentorship took us from £200k to multi-7-figure ARR in 18 months.</div>
+        <div class="qname-d">Agency Founder<div class="qrole-d">6x growth in 18 months</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lbl">Light — #f2f4f8</div>
+  <div class="row">
+    <div class="wrap" style="--base:rgba(8,16,30,0.10)" id="l1">
+      <div class="light-inner">
+        <div class="top"><span class="num">01</span><span class="tag-l">Agency</span></div>
+        <div class="title-l">Saulderson Media</div>
+        <div class="body-l">The agency I founded, scaled, and exited.</div>
+        <div class="link-strip-l">Learn more →</div>
+      </div>
+    </div>
+    <div class="wrap" style="--base:rgba(8,16,30,0.10)" id="l2">
+      <div class="light-inner" style="background:linear-gradient(135deg,#eaecf5,#f2f4f8)">
+        <div class="qmark-l">"</div>
+        <div class="qtext-l">Suhit's mentorship took us from £200k to multi-7-figure ARR in 18 months.</div>
+        <div class="qname-l">Agency Founder<div class="qrole-l">6x growth in 18 months</div></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+function attachGlow(el, light) {
+  const hi   = light ? 'rgba(8,16,30,0.18)'  : 'rgba(255,255,255,0.28)';
+  const mid  = light ? 'rgba(8,16,30,0.05)'  : 'rgba(255,255,255,0.06)';
+  const base = light ? 'rgba(8,16,30,0.10)'  : 'rgba(255,255,255,0.10)';
+  el.addEventListener('mousemove', e => {
+    const r = el.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width)  * 100;
+    const y = ((e.clientY - r.top)  / r.height) * 100;
+    el.style.setProperty('--glow',
+      `radial-gradient(circle at ${x}% ${y}%, ${hi} 0%, ${mid} 50%, ${base} 100%)`);
+  });
+  el.addEventListener('mouseleave', () => el.style.setProperty('--glow', base));
+}
+['d1','d2'].forEach(id => attachGlow(document.getElementById(id), false));
+['l1','l2'].forEach(id => attachGlow(document.getElementById(id), true));
+</script>
+</body></html>

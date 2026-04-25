@@ -1,0 +1,33 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>
+  @font-face { font-family:'Saira'; src:url('../fonts/Saira-VariableFont.ttf') format('truetype'); font-weight:100 900; }
+  * { box-sizing:border-box; margin:0; }
+  body { background:#000711; font-family:'Saira',sans-serif; padding:24px; display:flex; flex-direction:column; gap:16px; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:2px; font-size:13px; font-weight:500; cursor:pointer; border:none; transition:all 0.2s; text-decoration:none; font-family:'Saira',sans-serif; }
+  .pill { display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:2px; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; }
+  .lbl { font-size:9px; text-transform:uppercase; letter-spacing:0.12em; color:rgba(255,255,255,0.25); width:100%; }
+</style></head><body>
+  <div class="lbl">Primary CTA</div>
+  <div class="row">
+    <span class="btn" style="background:#0066ff;color:#fff">Book a stage →</span>
+    <span class="btn" style="background:#fff;color:#0066ff">Hover state →</span>
+  </div>
+  <div class="lbl">Secondary / Nav CTA</div>
+  <div class="row">
+    <span class="btn" style="background:#fff;color:#000">Get in touch</span>
+    <span class="btn" style="background:#0066ff;color:#fff">Hover state</span>
+  </div>
+  <div class="lbl">Ghost Pill (tag)</div>
+  <div class="row">
+    <span class="pill" style="border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7)">Founder</span>
+    <span class="pill" style="border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7)">Investor</span>
+    <span class="pill" style="border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7)">Speaker</span>
+    <span class="pill" style="border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7)">Operator</span>
+  </div>
+  <div class="lbl">Link with arrow</div>
+  <div class="row">
+    <span style="font-family:'Saira',sans-serif;font-size:13px;color:rgba(255,255,255,0.5)">Learn more →</span>
+    <span style="font-family:'Saira',sans-serif;font-size:13px;color:#fff">Hover state →</span>
+  </div>
+</body></html>

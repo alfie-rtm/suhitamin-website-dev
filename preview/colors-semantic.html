@@ -1,0 +1,22 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Saira:wght@400;600&display=swap');
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #000711; font-family: 'Saira', sans-serif; padding: 20px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .item { padding: 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); }
+  .dot { width: 28px; height: 28px; border-radius: 50%; margin-bottom: 8px; }
+  .name { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); }
+  .val  { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 2px; }
+</style></head><body>
+<div class="grid">
+  <div class="item"><div class="dot" style="background:rgba(255,255,255,1)"></div><div class="name">fg1</div><div class="val">white</div></div>
+  <div class="item"><div class="dot" style="background:rgba(255,255,255,0.80)"></div><div class="name">fg2</div><div class="val">white/80</div></div>
+  <div class="item"><div class="dot" style="background:rgba(255,255,255,0.60)"></div><div class="name">fg3</div><div class="val">white/60</div></div>
+  <div class="item"><div class="dot" style="background:rgba(255,255,255,0.40)"></div><div class="name">fg4</div><div class="val">white/40</div></div>
+  <div class="item"><div class="dot" style="background:#0066ff"></div><div class="name">accent</div><div class="val">#0066ff</div></div>
+  <div class="item"><div class="dot" style="background:rgba(255,255,255,0.10); border:1px solid rgba(255,255,255,0.2)"></div><div class="name">border</div><div class="val">white/10</div></div>
+  <div class="item"><div class="dot" style="background:#0a1018"></div><div class="name">section alt</div><div class="val">#0a1018</div></div>
+  <div class="item"><div class="dot" style="background:#0a1530"></div><div class="name">card hover</div><div class="val">#0a1530</div></div>
+</div>
+</body></html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>
+  @font-face { font-family:'Saira'; src:url('../fonts/Saira-VariableFont.ttf') format('truetype'); font-weight:100 900; }
+  * { box-sizing:border-box; margin:0; }
+  body { background:#0a1018; font-family:'Saira',sans-serif; padding:24px; display:flex; flex-direction:column; gap:14px; }
+  .row { display:flex; gap:10px; }
+  input { flex:1; padding:14px 20px; border-radius:2px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.10); color:#fff; font-size:14px; font-family:'Saira',sans-serif; outline:none; }
+  input::placeholder { color:rgba(255,255,255,0.35); }
+  input:focus { border-color:#0066ff; }
+  .btn { padding:14px 24px; border-radius:2px; background:#0066ff; color:#fff; font-size:13px; font-weight:500; border:none; font-family:'Saira',sans-serif; cursor:pointer; white-space:nowrap; }
+  .note { font-size:10px; color:rgba(255,255,255,0.25); text-align:center; }
+  .lbl { font-size:9px; text-transform:uppercase; letter-spacing:0.12em; color:rgba(255,255,255,0.25); }
+</style></head><body>
+  <div class="lbl">Newsletter Form</div>
+  <div class="row">
+    <input type="email" placeholder="you@domain.com">
+    <button class="btn">Subscribe</button>
+  </div>
+  <div class="lbl">Focus State</div>
+  <div class="row">
+    <input type="email" placeholder="you@domain.com" style="border-color:#0066ff">
+    <button class="btn">Subscribe</button>
+  </div>
+  <div class="note">No spam. Unsubscribe anytime.</div>
+</body></html>

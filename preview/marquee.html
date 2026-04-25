@@ -1,0 +1,44 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>
+  @font-face { font-family:'Saira'; src:url('../fonts/Saira-VariableFont.ttf') format('truetype'); font-weight:100 900; font-style:normal; }
+  * { box-sizing:border-box; margin:0; }
+  body { background:#0a1018; overflow:hidden; }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .track {
+    display:flex; animation:marquee 28s linear infinite; white-space:nowrap;
+    padding:26px 0;
+    border-top:1px solid rgba(255,255,255,0.08);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .item {
+    display:flex; align-items:center; gap:28px; padding:0 24px;
+    font-family:'Saira',sans-serif;
+    font-size:18px; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.2em;
+    color:rgba(255,255,255,0.65);
+    text-shadow: 0 0 20px rgba(255,255,255,0.15), 0 0 40px rgba(0,102,255,0.08);
+    transition:color 0.3s, text-shadow 0.3s;
+  }
+  .item:hover {
+    color:rgba(255,255,255,0.95);
+    text-shadow: 0 0 24px rgba(255,255,255,0.35), 0 0 50px rgba(0,102,255,0.2);
+  }
+  .sep {
+    color:#0066ff; font-size:22px; line-height:1;
+    text-shadow: 0 0 12px rgba(0,102,255,0.7), 0 0 28px rgba(0,102,255,0.4);
+    flex-shrink:0;
+  }
+</style></head><body>
+<div class="track">
+  <div class="item">Forbes 30 Under 30 <span class="sep">✦</span></div>
+  <div class="item">TEDx Speaker <span class="sep">✦</span></div>
+  <div class="item">Scottish Young Edge Award <span class="sep">✦</span></div>
+  <div class="item">Saulderson Media — Acquired <span class="sep">✦</span></div>
+  <div class="item">Angel Investor <span class="sep">✦</span></div>
+  <div class="item">Forbes 30 Under 30 <span class="sep">✦</span></div>
+  <div class="item">TEDx Speaker <span class="sep">✦</span></div>
+  <div class="item">Scottish Young Edge Award <span class="sep">✦</span></div>
+  <div class="item">Saulderson Media — Acquired <span class="sep">✦</span></div>
+  <div class="item">Angel Investor <span class="sep">✦</span></div>
+</div>
+</body></html>

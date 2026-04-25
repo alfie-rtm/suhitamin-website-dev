@@ -1,0 +1,301 @@
+/* ============================================================
+   SUHIT AMIN — Design Tokens
+   Source: alfie-rtm/suhit-website (globals.css + CLAUDE.md)
+   ============================================================ */
+
+/* --- Web Fonts --- */
+@font-face {
+  font-family: 'Saira';
+  src: url('./fonts/Saira-VariableFont.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Saira';
+  src: url('./fonts/Saira-Italic-VariableFont.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Playfair Display — served via Google Fonts CDN */
+/* @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap'); */
+
+/* ============================================================
+   BASE COLOR TOKENS
+   ============================================================ */
+:root {
+  /* Background scale */
+  --color-bg:            #000711;   /* Page background — deep midnight navy */
+  --color-bg-alt:        #0a1018;   /* Alternate sections (Story, Newsletter, Marquee) */
+  --color-bg-gradient:   #0a1530;   /* Hero overlay, card hover, Speaking section */
+  --color-surface:       #151a1e;   /* Elevated dark surfaces */
+  --color-surface-light: #f2f4f8;   /* Light surface — cool blue-tinted white */
+
+  /* Foreground scale */
+  --color-fg1:           #ffffff;   /* Primary text */
+  --color-fg2:           rgba(255,255,255,0.80); /* Secondary text */
+  --color-fg3:           rgba(255,255,255,0.60); /* Tertiary / italic emphasis in headlines */
+  --color-fg4:           rgba(255,255,255,0.40); /* Muted / scroll cue */
+  --color-fg5:           rgba(255,255,255,0.30); /* Very subtle (footer meta) */
+
+  /* Accent — electric blue */
+  --color-accent:        #0066ff;   /* Primary accent — buttons, eyebrows, dots, hover */
+  --color-accent-soft:   #5694ff;   /* Softer blue — subtle highlights */
+  --color-accent-pale:   #eff5ff;   /* Near-white tint for light-bg contexts */
+
+  /* Border scale */
+  --color-border:        rgba(255,255,255,0.10);  /* Standard border */
+  --color-border-subtle: rgba(255,255,255,0.05);  /* Footer divider */
+  --color-border-pill:   rgba(255,255,255,0.15);  /* Tag/pill borders */
+
+  /* Selection */
+  --color-selection-bg:  #0066ff;
+  --color-selection-fg:  #0a0a0a;
+}
+
+/* ============================================================
+   SEMANTIC COLOR TOKENS
+   ============================================================ */
+:root {
+  --bg:               var(--color-bg);
+  --fg:               var(--color-fg1);
+  --fg-muted:         var(--color-fg3);
+  --fg-dim:           var(--color-fg4);
+  --surface:          var(--color-surface);
+  --accent:           var(--color-accent);
+  --accent-hover:     #ffffff;        /* Button accent → white on hover */
+  --accent-hover-fg:  var(--color-accent);
+  --border:           var(--color-border);
+  --card-bg:          var(--color-bg);
+  --card-hover-bg:    var(--color-bg-gradient);
+  --section-alt-bg:   var(--color-bg-alt);
+}
+
+/* ============================================================
+   TYPOGRAPHY TOKENS
+   ============================================================ */
+:root {
+  /* Font families */
+  --font-display:  'Playfair Display', 'Georgia', serif;   /* Headlines, brand name */
+  --font-sans:     'Saira', 'Inter', sans-serif;            /* Body, nav, UI copy */
+  --font-mono:     'JetBrains Mono', 'Fira Code', monospace; /* Year labels, project numbers */
+
+  /* Font sizes — fluid scale */
+  --text-hero:     clamp(4rem, 12vw, 14rem);   /* Hero name */
+  --text-display:  clamp(2.5rem, 6vw, 5rem);   /* Section headings h2 */
+  --text-h3:       clamp(1.75rem, 3vw, 2.25rem); /* Card headings */
+  --text-xl:       1.25rem;   /* Large body */
+  --text-lg:       1.125rem;  /* Body */
+  --text-base:     1rem;      /* Default */
+  --text-sm:       0.875rem;  /* Small / eyebrow */
+  --text-xs:       0.75rem;   /* Captions, meta */
+
+  /* Font weights */
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold: 600;
+  --weight-bold:    700;
+
+  /* Letter spacing */
+  --tracking-tight:   -0.03em;  /* Display headings */
+  --tracking-normal:  0;
+  --tracking-wide:    0.05em;   /* Nav brand name */
+  --tracking-eyebrow: 0.3em;    /* ALL CAPS section eyebrows */
+  --tracking-widest:  0.2em;    /* Tag pills, footer labels */
+
+  /* Line height */
+  --leading-hero:    0.85;   /* Massive hero name */
+  --leading-tight:   1.1;    /* Display headings */
+  --leading-normal:  1.5;    /* Body */
+  --leading-relaxed: 1.7;    /* Long-form body paragraphs */
+}
+
+/* ============================================================
+   SEMANTIC TYPE STYLES  (apply via class or @apply)
+   ============================================================ */
+
+/* Eyebrow — "WHAT I'M BUILDING" */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--color-accent);
+  line-height: 1.4;
+}
+
+/* Section heading */
+.h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-hero);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-fg1);
+}
+
+.h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-fg1);
+}
+
+.h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-fg1);
+}
+
+/* Italic emphasis within headlines — always dimmed */
+.h2 em, .h3 em {
+  font-style: italic;
+  color: var(--color-fg3);
+}
+
+/* Body text */
+.body-lg {
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-relaxed);
+  color: var(--color-fg2);
+}
+
+.body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+  color: var(--color-fg2);
+}
+
+.body-sm {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+  color: var(--color-fg3);
+}
+
+/* Mono — year labels, project numbers */
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-accent);
+}
+
+/* Nav brand name */
+.brand-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  letter-spacing: var(--tracking-wide);
+}
+
+/* ============================================================
+   SPACING TOKENS
+   ============================================================ */
+:root {
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+  --space-32:  128px;  /* Section vertical padding */
+
+  /* Layout */
+  --max-width:       1280px;  /* max-w-7xl */
+  --section-px:      48px;    /* md:px-12 */
+  --section-py:      128px;   /* py-32 */
+  --card-p:          40px;    /* p-10 */
+  --card-p-lg:       56px;    /* md:p-14 */
+}
+
+/* ============================================================
+   BORDER RADIUS TOKENS
+   ============================================================ */
+:root {
+  --radius-sm:    8px;
+  --radius-md:    16px;   /* rounded-2xl — cards, testimonials, stage tiles */
+  --radius-full:  9999px; /* rounded-full — buttons, pills */
+}
+
+/* ============================================================
+   ELEVATION / SHADOW TOKENS
+   (no box-shadow system; depth via background color layering)
+   ============================================================ */
+:root {
+  /* Glow blobs — used as absolute positioned pseudo-depth */
+  --glow-accent-lg:   0 0 200px 80px rgba(0,102,255,0.20);  /* Hero/Speaking blob */
+  --glow-accent-sm:   0 0 120px 40px rgba(0,102,255,0.15);  /* Story blob */
+
+  /* Backdrop blur */
+  --blur-nav:   12px;   /* backdrop-blur-md on nav */
+  --blur-tile:  8px;    /* backdrop-blur on stage tiles */
+}
+
+/* ============================================================
+   MOTION TOKENS
+   ============================================================ */
+:root {
+  --ease-out:         cubic-bezier(0.0, 0.0, 0.2, 1);
+  --duration-fast:    200ms;
+  --duration-base:    300ms;
+  --duration-reveal:  600ms;
+  --duration-hero:    800ms;
+  --duration-marquee: 40s;
+  --stagger:          100ms;  /* delay per child item */
+}
+
+/* ============================================================
+   GLOBAL BASE STYLES
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-selection-bg);
+  color: var(--color-selection-fg);
+}
+
+/* Grain texture overlay */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track { animation: marquee var(--duration-marquee) linear infinite; }

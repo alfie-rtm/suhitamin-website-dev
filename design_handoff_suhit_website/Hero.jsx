@@ -70,10 +70,10 @@ const HeroComponent = ({ onLightMode }) => {
     return () => window.removeEventListener('scroll', onScroll);
   }, [onLightMode]);
 
-  // Phase 1 (0-85%): "A" zooms gently to fill viewport
-  // Phase 2 (85-100%): Content fades out
-  const phase1 = Math.min(1, progress / 0.85);
-  const phase2 = Math.max(0, Math.min(1, (progress - 0.85) / 0.15));
+  // Phase 1 (0-95%): "A" zooms gently to fill viewport
+  // Phase 2 (95-100%): Content fades out
+  const phase1 = Math.min(1, progress / 0.95);
+  const phase2 = Math.max(0, Math.min(1, (progress - 0.95) / 0.05));
 
   const globalScale = 1 + phase1 * 119;        // 1→120x: "A" completely engulfs viewport
   const contentOp    = Math.max(0, 1 - phase2);

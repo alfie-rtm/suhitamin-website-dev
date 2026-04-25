@@ -1,13 +1,13 @@
 // Hero.jsx — Full-screen with folder nav, no separate nav bar
-// Floating folders for immersive "enter Suhit's world" feel
+// Floating folders — organic drift + mouse parallax
 const FOLDERS = [
-  { id:'projects',    label:'Projects',    x:'-500%', y:'-250%', floatDur: '4.2s', floatDelay: '0s',   rot: -3 },
-  { id:'investing',   label:'Investing',   x:'500%',  y:'-195%', floatDur: '5.1s', floatDelay: '0.7s',  rot: 2  },
-  { id:'youtube',     label:'Content',     x:'-400%', y:'300%',  floatDur: '3.8s', floatDelay: '1.4s',  rot: -2 },
-  { id:'speaking',    label:'Speaking',    x:'350%',  y:'250%',  floatDur: '4.6s', floatDelay: '2.1s',  rot: 3  },
+  { id:'projects',  label:'Projects',  x:'-500%', y:'-250%', dur:'5.7s', delay:'0s',   rot:-4, drift:[{x:4,y:-5,r:1},{x:-3,y:3,r:-0.5},{x:5,y:-4,r:0.8},{x:-2,y:2,r:-1}] },
+  { id:'investing', label:'Investing', x:'500%',  y:'-195%', dur:'6.3s', delay:'1.2s', rot:3,  drift:[{x:-5,y:-3,r:-1},{x:3,y:4,r:0.5},{x:-4,y:-5,r:-0.8},{x:2,y:3,r:1.2}] },
+  { id:'youtube',   label:'Content',   x:'-400%', y:'300%',  dur:'4.9s', delay:'2.4s', rot:-2, drift:[{x:3,y:4,r:0.5},{x:-4,y:-3,r:-1},{x:2,y:5,r:0.8},{x:-3,y:-2,r:-0.5}] },
+  { id:'speaking',  label:'Speaking',  x:'350%',  y:'250%',  dur:'7.1s', delay:'0.8s', rot:5,  drift:[{x:-3,y:-4,r:-0.8},{x:4,y:2,r:1},{x:-2,y:-5,r:-1.2},{x:3,y:3,r:0.5}] },
 ];
 
-const MacFolder = ({ label, href, floatDur, floatDelay, rot }) => {
+const MacFolder = ({ label, href, dur, delay, rot, drift }) => {
   const [hov, setHov] = React.useState(false);
   const [tilt, setTilt] = React.useState({ x: 0, y: 0 });
 
@@ -27,6 +27,10 @@ const MacFolder = ({ label, href, floatDur, floatDelay, rot }) => {
   };
 
   const floatName = `float_${label.replace(/\s/g,'')}`;
+  const kf = drift.map((d, i) => {
+    const pct = (i + 1) * 20;
+    return `${pct}%  { transform: translate(${d.x}px, ${d.y}px) rotate(${rot + d.r}deg); }`;
+  }).join('\n          ');
 
   return (
     <a href={href}
@@ -36,7 +40,7 @@ const MacFolder = ({ label, href, floatDur, floatDelay, rot }) => {
       style={{
         display:'flex', flexDirection:'column', alignItems:'center', gap:7,
         textDecoration:'none', cursor:'pointer',
-        animation: `${floatName} ${floatDur} ease-in-out ${floatDelay} infinite`,
+        animation: `${floatName} ${dur} ease-in-out ${delay} infinite`,
         transform: hov
           ? `translateY(-8px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.12)`
           : `rotate(${rot}deg)`,
@@ -98,10 +102,8 @@ const MacFolder = ({ label, href, floatDur, floatDelay, rot }) => {
 
       <style>{`
         @keyframes ${floatName} {
-          0%, 100% { transform: translateY(0) rotate(${rot}deg); }
-          25% { transform: translateY(-6px) rotate(${rot + 0.5}deg); }
-          50% { transform: translateY(-3px) rotate(${rot - 0.3}deg); }
-          75% { transform: translateY(-8px) rotate(${rot + 0.2}deg); }
+          0%, 100% { transform: translate(0, 0) rotate(${rot}deg); }
+          ${kf}
         }
       `}</style>
     </a>
@@ -111,12 +113,13 @@ const MacFolder = ({ label, href, floatDur, floatDelay, rot }) => {
 const HeroComponent = ({ onLightMode }) => {
   const sectionRef = React.useRef(null);
   const [progress, setProgress] = React.useState(0);
+  const [mouse, setMouse] = React.useState({ x: 0, y: 0 });
 
   React.useEffect(() => {
     const onScroll = () => {
       if (!sectionRef.current) return;
-      const rect   = sectionRef.current.getBoundingClientRect();
-      const sH     = sectionRef.current.offsetHeight;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const sH = sectionRef.current.offsetHeight;
       const scrolled = -rect.top;
       const p = Math.max(0, Math.min(1, scrolled / (sH - window.innerHeight)));
       setProgress(p);
@@ -125,6 +128,20 @@ const HeroComponent = ({ onLightMode }) => {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, [onLightMode]);
+
+  // Mouse parallax for folders
+  React.useEffect(() => {
+    const onMove = (e) => {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      setMouse({
+        x: (e.clientX - cx) / cx,
+        y: (e.clientY - cy) / cy,
+      });
+    };
+    window.addEventListener('mousemove', onMove, { passive: true });
+    return () => window.removeEventListener('mousemove', onMove);
+  }, []);
 
   // Animation phases
   const phase1  = Math.min(1, progress / 0.45);
@@ -168,7 +185,7 @@ const HeroComponent = ({ onLightMode }) => {
         {/* Vignette */}
         <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,rgba(0,7,17,0.55) 0%,transparent 35%,rgba(0,7,17,0.7) 100%)',pointerEvents:'none',zIndex:1}}/>
 
-        {/* Main content — zooms on scroll */}
+        {/* Main content */}
         <div style={{
           position:'relative', zIndex:2, textAlign:'center',
           transformOrigin:'center center',
@@ -181,7 +198,7 @@ const HeroComponent = ({ onLightMode }) => {
             fontWeight:600, opacity:eyebrowOp, whiteSpace:'nowrap',
           }}>Forbes 30 Under 30 — Exited Founder</p>
 
-          {/* Title — each letter individually scaled */}
+          {/* Title */}
           <div style={{position:'relative'}}>
             <h1 style={{
               fontFamily:"'Saira',sans-serif", fontWeight:800,
@@ -204,11 +221,13 @@ const HeroComponent = ({ onLightMode }) => {
               ))}
             </h1>
 
-            {/* macOS Folder Nav — floating around the title */}
+            {/* Folder Nav — with mouse parallax */}
             <div style={{
               position:'absolute', inset:0,
               opacity:folderOp, transition:'opacity 0.15s',
               pointerEvents: folderOp < 0.05 ? 'none' : 'auto',
+              transform: `translate(${mouse.x * -8}px, ${mouse.y * -8}px)`,
+              transition:'transform 0.4s ease-out',
             }}>
               {FOLDERS.map(f => (
                 <div key={f.id} style={{
@@ -218,9 +237,10 @@ const HeroComponent = ({ onLightMode }) => {
                   <MacFolder
                     label={f.label}
                     href={`#${f.id}`}
-                    floatDur={f.floatDur}
-                    floatDelay={f.floatDelay}
+                    dur={f.dur}
+                    delay={f.delay}
                     rot={f.rot}
+                    drift={f.drift}
                   />
                 </div>
               ))}

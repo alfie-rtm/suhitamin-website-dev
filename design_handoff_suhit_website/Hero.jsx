@@ -149,13 +149,11 @@ const HeroComponent = ({ onLightMode }) => {
   const phase3  = Math.max(0, (progress - 0.75) / 0.15);
 
   const globalScale = 1 + phase1 * 8;
-  const tExtraScale = 1 + phase2 * 7;
-  const otherOp     = Math.max(0, 1 - phase2 * 2);
+  const headingOp   = Math.max(0, 1 - phase2 * 2);
   const eyebrowOp   = Math.max(0, 1 - phase1 * 4);
   const tagOp       = Math.max(0, 1 - phase1 * 5);
   const folderOp    = Math.max(0, 1 - phase1 * 2.2);
   const blobOp      = Math.max(0, 1 - phase1 * 2.5);
-  const blackOp     = Math.min(1, phase3 * 2.5);
 
   const LETTERS = [
     {ch:'S'},{ch:'U'},{ch:'H'},{ch:'I'},{ch:'T',isT:true},
@@ -198,8 +196,8 @@ const HeroComponent = ({ onLightMode }) => {
             fontWeight:600, opacity:eyebrowOp, whiteSpace:'nowrap',
           }}>Forbes 30 Under 30 — Exited Founder</p>
 
-          {/* Title */}
-          <div style={{position:'relative'}}>
+          {/* Title — unified zoom + fade */}
+          <div style={{position:'relative', opacity:headingOp, transition:'opacity 0.04s'}}>
             <h1 style={{
               fontFamily:"'Saira',sans-serif", fontWeight:800,
               lineHeight:0.88, letterSpacing:'-0.04em', margin:0,
@@ -211,12 +209,8 @@ const HeroComponent = ({ onLightMode }) => {
                 <span key={i} style={{
                   color:'#ffffff',
                   display:'inline-block',
-                  transform: l.isT ? `scale(${tExtraScale})` : 'none',
-                  opacity: l.sp ? 1 : (l.isT ? 1 : (phase2 > 0 ? otherOp : 1)),
                   transformOrigin:'center bottom',
-                  zIndex: l.isT ? 2 : 1,
                   position:'relative',
-                  transition:'opacity 0.04s',
                 }}>{l.ch}</span>
               ))}
             </h1>
@@ -279,9 +273,6 @@ const HeroComponent = ({ onLightMode }) => {
           <div style={{width:1,height:32,background:'rgba(255,255,255,0.2)'}}/>
           <span style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.2em',color:'rgba(255,255,255,0.25)',fontFamily:"'Saira',sans-serif"}}>Scroll</span>
         </div>
-
-        {/* Flash overlay */}
-        <div style={{position:'absolute',inset:0,background:'#000711',opacity:blackOp,zIndex:10,pointerEvents:'none'}}/>
       </div>
     </section>
   );

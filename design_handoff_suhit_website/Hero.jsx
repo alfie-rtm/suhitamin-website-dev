@@ -80,10 +80,9 @@ const HeroComponent = ({ onLightMode }) => {
   // SLOW, GENTLE zoom:
   // Phase 1 (0-50%): "A" zooms to fill viewport — scale 1→120
   // Phase 2 (50-70%): All content fades out
-  // Phase 3 (70-90%): Light mode signal for next section
+  // Phase 3 (70-100%): Sticky unsticks, white section below appears
   const phase1 = Math.min(1, progress / 0.50);
   const phase2 = Math.max(0, Math.min(1, (progress - 0.50) / 0.20));
-  const phase3 = Math.max(0, Math.min(1, (progress - 0.70) / 0.20));
 
   const headingScale = 1 + phase1 * 120;
   const contentOp    = Math.max(0, 1 - phase2);
@@ -109,7 +108,7 @@ const HeroComponent = ({ onLightMode }) => {
   ];
 
   return (
-    <section ref={sectionRef} id="top" style={{height:'800vh', position:'relative'}}>
+    <section ref={sectionRef} id="top" style={{height:'220vh', position:'relative'}}>
       <div style={{
         position:'sticky', top:0, height:'100vh', overflow:'hidden',
         background: bgColor, display:'flex', alignItems:'center', justifyContent:'center',

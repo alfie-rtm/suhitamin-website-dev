@@ -75,7 +75,7 @@ const HeroComponent = ({ onLightMode }) => {
   const phase1 = Math.min(1, progress / 0.50);
   const phase2 = Math.max(0, Math.min(1, (progress - 0.50) / 0.20));
 
-  const globalScale = 1 + phase1 * 84;        // 1→85x: "A" fills viewport
+  const globalScale = 1 + phase1 * 119;        // 1→120x: "A" completely engulfs viewport
   const contentOp    = Math.max(0, 1 - phase2);
   const blobOp       = Math.max(0, 1 - phase1 * 2);
   const vignetteOp   = Math.max(0, 1 - phase2);
@@ -123,7 +123,7 @@ const HeroComponent = ({ onLightMode }) => {
           }}>Forbes 30 Under 30 — Exited Founder</p>
 
           {/* Heading — zooms into "A" */}
-          <div style={{position:'relative', display:'inline-block', transformOrigin:'56% center', transform:`scale(${globalScale})`, willChange:'transform'}}>
+          <div style={{position:'relative', display:'inline-block', transformOrigin:'60% center', transform:`scale(${globalScale})`, willChange:'transform'}}>
             <h1 style={{
               fontFamily:"'Saira',sans-serif", fontWeight:800,
               lineHeight:0.88, letterSpacing:'-0.04em', margin:0,

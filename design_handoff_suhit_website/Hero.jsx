@@ -77,14 +77,14 @@ const HeroComponent = ({ onLightMode }) => {
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
 
-  // Phase 1 (0-25%): Zoom "A" to fill viewport — scale 1→200
-  // Phase 2 (25-45%): Content fades out
-  // Phase 3 (45-70%): Background transitions dark → white
-  const phase1 = Math.min(1, progress / 0.25);
-  const phase2 = Math.max(0, Math.min(1, (progress - 0.25) / 0.20));
-  const phase3 = Math.max(0, Math.min(1, (progress - 0.45) / 0.25));
+  // Phase 1 (0-35%): Zoom "A" to fill viewport — scale 1→300
+  // Phase 2 (35-55%): Content fades out
+  // Phase 3 (55-75%): Background transitions dark → white
+  const phase1 = Math.min(1, progress / 0.35);
+  const phase2 = Math.max(0, Math.min(1, (progress - 0.35) / 0.20));
+  const phase3 = Math.max(0, Math.min(1, (progress - 0.55) / 0.20));
 
-  const globalScale = 1 + phase1 * 200;
+  const globalScale = 1 + phase1 * 300;
   const contentOp   = Math.max(0, 1 - phase2);
   const blobOp      = Math.max(0, 1 - phase1 * 2);
   const vignetteOp  = Math.max(0, 1 - phase2 * 1.5);
@@ -137,7 +137,7 @@ const HeroComponent = ({ onLightMode }) => {
         {/* Main content */}
         <div style={{
           position:'relative', zIndex:2, textAlign:'center',
-          transformOrigin:'58% center',
+          transformOrigin:'52% center',
           transform:`scale(${globalScale})`, willChange:'transform',
           opacity: contentOp,
           transition: 'opacity 0.08s linear',

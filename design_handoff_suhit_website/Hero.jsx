@@ -90,7 +90,7 @@ const HeroComponent = ({ onLightMode }) => {
   ];
 
   return (
-    <section ref={sectionRef} id="top" style={{height:'450vh', position:'relative'}}>
+    <section ref={sectionRef} id="top" style={{height:'250vh', position:'relative'}}>
       <div style={{
         position:'sticky', top:0, height:'100vh', overflow:'hidden',
         background:'#000711', display:'flex', alignItems:'center', justifyContent:'center',

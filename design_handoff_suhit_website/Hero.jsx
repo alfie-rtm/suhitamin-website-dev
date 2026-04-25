@@ -1,6 +1,6 @@
 // Hero.jsx — Full-screen with folder nav, no separate nav bar
 // Floating folders — organic drift + mouse parallax
-// Zoom effect: "A" in "Amin" fills viewport on scroll, transitioning to light mode
+// Zoom effect: "A" in "Amin" fills viewport on scroll, transitioning to WHITE
 
 const FOLDERS = [
   { id:'projects',  label:'Projects',  x:'-500%', y:'-250%', dur:'8s', delay:'0s',   rot:-3, drift:[{x:2,y:-3,r:0.3},{x:-1,y:2,r:-0.2},{x:2,y:-2,r:0.2},{x:-1,y:1,r:-0.3}] },
@@ -17,97 +17,34 @@ const MacFolder = ({ label, href, dur, delay, rot, drift }) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
-    setTilt({
-      x: (e.clientY - cy) / 12,
-      y: (cx - e.clientX) / 12,
-    });
+    setTilt({ x: (e.clientY - cy) / 12, y: (cx - e.clientX) / 12 });
   };
-
-  const handleMouseLeave = () => {
-    setHov(false);
-    setTilt({ x: 0, y: 0 });
-  };
+  const handleMouseLeave = () => { setHov(false); setTilt({ x: 0, y: 0 }); };
 
   const floatName = `float_${label.replace(/\s/g,'')}`;
-  const kf = drift.map((d, i) => {
-    const pct = (i + 1) * 20;
-    return `${pct}%  { transform: translate(${d.x}px, ${d.y}px) rotate(${rot + d.r}deg); }`;
-  }).join('\n          ');
+  const kf = drift.map((d, i) => `${(i + 1) * 20}%  { transform: translate(${d.x}px, ${d.y}px) rotate(${rot + d.r}deg); }`).join('\n          ');
 
   return (
-    <a href={href}
-      onMouseEnter={()=>setHov(true)}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        display:'flex', flexDirection:'column', alignItems:'center', gap:7,
-        textDecoration:'none', cursor:'pointer',
+    <a href={href} onMouseEnter={()=>setHov(true)} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}
+      style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:7, textDecoration:'none', cursor:'pointer',
         animation: `${floatName} ${dur} ease-in-out ${delay} infinite`,
-        transform: hov
-          ? `translateY(-8px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.12)`
-          : `rotate(${rot}deg)`,
-        transformStyle:'preserve-3d',
-        perspective:600,
+        transform: hov ? `translateY(-8px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.12)` : `rotate(${rot}deg)`,
+        transformStyle:'preserve-3d', perspective:600,
         transition:'transform 0.25s cubic-bezier(0.4,0,0.2,1)',
         filter: hov ? 'drop-shadow(0 0 20px rgba(0,102,255,0.4))' : 'none',
       }}>
-      {/* Folder body */}
-      <div style={{
-        position:'relative', width:86, height:70,
-        transform: `translateZ(${hov ? 20 : 0}px)`,
-        transition:'transform 0.25s cubic-bezier(0.4,0,0.2,1)',
-      }}>
-        {/* Tab */}
-        <div style={{
-          position:'absolute', top:-11, left:0, width:34, height:12,
-          background: hov ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.10)',
-          border:'1px solid rgba(255,255,255,0.25)',
-          borderBottom:'none', borderRadius:'4px 4px 0 0',
-          backdropFilter:'blur(12px)',
-          transition:'background 0.2s',
-        }}/>
-        {/* Body */}
-        <div style={{
-          position:'absolute', inset:0,
-          background: hov ? 'rgba(255,255,255,0.20)' : 'rgba(255,255,255,0.09)',
-          border:'1px solid rgba(255,255,255,0.28)',
-          borderRadius:'0 4px 4px 4px',
-          backdropFilter:'blur(16px)',
-          display:'flex', alignItems:'center', justifyContent:'center',
-          transition:'background 0.2s, box-shadow 0.3s',
-          boxShadow: hov
-            ? '0 12px 40px rgba(0,102,255,0.35), inset 0 1px 0 rgba(255,255,255,0.15)'
-            : '0 4px 16px rgba(0,0,0,0.3)',
-        }}>
-          {/* Inner icon */}
+      <div style={{ position:'relative', width:86, height:70, transform: `translateZ(${hov ? 20 : 0}px)`, transition:'transform 0.25s cubic-bezier(0.4,0,0.2,1)' }}>
+        <div style={{ position:'absolute', top:-11, left:0, width:34, height:12, background: hov ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.10)', border:'1px solid rgba(255,255,255,0.25)', borderBottom:'none', borderRadius:'4px 4px 0 0', backdropFilter:'blur(12px)', transition:'background 0.2s' }}/>
+        <div style={{ position:'absolute', inset:0, background: hov ? 'rgba(255,255,255,0.20)' : 'rgba(255,255,255,0.09)', border:'1px solid rgba(255,255,255,0.28)', borderRadius:'0 4px 4px 4px', backdropFilter:'blur(16px)', display:'flex', alignItems:'center', justifyContent:'center', transition:'background 0.2s, box-shadow 0.3s', boxShadow: hov ? '0 12px 40px rgba(0,102,255,0.35), inset 0 1px 0 rgba(255,255,255,0.15)' : '0 4px 16px rgba(0,0,0,0.3)' }}>
           <div style={{display:'flex', flexDirection:'column', alignItems:'center', gap:2}}>
-            <div style={{
-              width:28, height:20, borderRadius:2,
-              background:'linear-gradient(135deg, #0066ff, #5694ff)',
-              opacity: hov ? 1 : 0.7,
-              transition:'opacity 0.2s',
-            }}/>
+            <div style={{ width:28, height:20, borderRadius:2, background:'linear-gradient(135deg, #0066ff, #5694ff)', opacity: hov ? 1 : 0.7, transition:'opacity 0.2s' }}/>
             <div style={{width:20, height:3, borderRadius:1, background:'rgba(255,255,255,0.3)'}}/>
             <div style={{width:24, height:2, borderRadius:1, background:'rgba(255,255,255,0.2)'}}/>
           </div>
         </div>
       </div>
-      {/* Label */}
-      <span style={{
-        fontSize:10, textTransform:'uppercase', letterSpacing:'0.16em',
-        color: hov ? '#fff' : 'rgba(255,255,255,0.65)',
-        fontFamily:"'Saira',sans-serif", fontWeight:600, whiteSpace:'nowrap',
-        transition:'color 0.2s',
-        textShadow:'0 1px 8px rgba(0,0,0,0.5)',
-        transform: `translateZ(${hov ? 10 : 0}px)`,
-      }}>{label}</span>
-
-      <style>{`
-        @keyframes ${floatName} {
-          0%, 100% { transform: translate(0, 0) rotate(${rot}deg); }
-          ${kf}
-        }
-      `}</style>
+      <span style={{ fontSize:10, textTransform:'uppercase', letterSpacing:'0.16em', color: hov ? '#fff' : 'rgba(255,255,255,0.65)', fontFamily:"'Saira',sans-serif", fontWeight:600, whiteSpace:'nowrap', transition:'color 0.2s', textShadow:'0 1px 8px rgba(0,0,0,0.5)', transform: `translateZ(${hov ? 10 : 0}px)` }}>{label}</span>
+      <style>{`@keyframes ${floatName} { 0%, 100% { transform: translate(0, 0) rotate(${rot}deg); } ${kf} }`}</style>
     </a>
   );
 };
@@ -125,52 +62,61 @@ const HeroComponent = ({ onLightMode }) => {
       const scrolled = -rect.top;
       const p = Math.max(0, Math.min(1, scrolled / (sH - window.innerHeight)));
       setProgress(p);
-      if (onLightMode) onLightMode(p > 0.82);
+      if (onLightMode) onLightMode(p > 0.70);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, [onLightMode]);
 
-  // Mouse parallax for folders
   React.useEffect(() => {
     const onMove = (e) => {
-      const cx = window.innerWidth / 2;
-      const cy = window.innerHeight / 2;
-      setMouse({
-        x: (e.clientX - cx) / cx,
-        y: (e.clientY - cy) / cy,
-      });
+      const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+      setMouse({ x: (e.clientX - cx) / cx, y: (e.clientY - cy) / cy });
     };
     window.addEventListener('mousemove', onMove, { passive: true });
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
 
-  // Animation phases
-  // phase1: 0-55% — massive zoom into "A"
-  // phase2: 55-85% — content fades out
-  // phase3: 85-100% — light mode transition
-  const phase1 = Math.min(1, progress / 0.55);
-  const phase2 = Math.max(0, Math.min(1, (progress - 0.55) / 0.30));
-  const phase3 = Math.max(0, (progress - 0.85) / 0.15);
+  // Phase 1 (0-30%): Zoom "A" to fill viewport — scale 1→100
+  // Phase 2 (30-55%): Content fades out
+  // Phase 3 (55-80%): Background transitions dark → white
+  const phase1 = Math.min(1, progress / 0.30);
+  const phase2 = Math.max(0, Math.min(1, (progress - 0.30) / 0.25));
+  const phase3 = Math.max(0, Math.min(1, (progress - 0.55) / 0.25));
 
-  // Massive scale: up to 50x so "A" fills viewport
-  const globalScale = 1 + phase1 * 50;
-  // Content fades linearly during phase2
-  const contentOp = Math.max(0, 1 - phase2);
-  // Blobs fade early
-  const blobOp = Math.max(0, 1 - phase1 * 1.5);
+  const globalScale = 1 + phase1 * 100;
+  const contentOp   = Math.max(0, 1 - phase2);
+  const blobOp      = Math.max(0, 1 - phase1 * 2);
+  const vignetteOp  = Math.max(0, 1 - phase2 * 1.5);
 
-const LETTERS = [
+  // Background: #000711 → #f2f4f8
+  const bgR = Math.round(242 * phase3);
+  const bgG = Math.round(7 + 237 * phase3);
+  const bgB = Math.round(17 + 231 * phase3);
+  const bgColor = `rgb(${bgR}, ${bgG}, ${bgB})`;
+
+  // Text adapts to bg lightness
+  const isLight = phase3 > 0.5;
+  const textBase = isLight ? '#08101e' : '#ffffff';
+  const textDim  = isLight ? 'rgba(8,16,30,0.55)' : 'rgba(255,255,255,0.65)';
+  const tagClr   = isLight ? 'rgba(8,16,30,0.55)' : 'rgba(255,255,255,0.55)';
+  const tagBdr   = isLight ? 'rgba(8,16,30,0.15)' : 'rgba(255,255,255,0.15)';
+  const eyebrow  = isLight ? '#004ecc' : '#0066ff';
+  const scrollLn = isLight ? 'rgba(8,16,30,0.2)' : 'rgba(255,255,255,0.2)';
+  const scrollLbl= isLight ? 'rgba(8,16,30,0.25)' : 'rgba(255,255,255,0.25)';
+
+  const LETTERS = [
     {ch:'S'},{ch:'U'},{ch:'H'},{ch:'I'},{ch:'T'},
     {ch:'\u00A0'},
     {ch:'A'},{ch:'M'},{ch:'I'},{ch:'N'},{ch:'.'},
   ];
 
   return (
-    <section ref={sectionRef} id="top" style={{height:'480vh', position:'relative'}}>
+    <section ref={sectionRef} id="top" style={{height:'520vh', position:'relative'}}>
       <div style={{
         position:'sticky', top:0, height:'100vh', overflow:'hidden',
-        background:'#000711', display:'flex', alignItems:'center', justifyContent:'center',
+        background: bgColor, display:'flex', alignItems:'center', justifyContent:'center',
+        transition: 'background 0.1s linear',
       }}>
         <style>{`
           @keyframes bH1{0%,100%{transform:translateY(-50%) scale(1);opacity:.8}50%{transform:translateY(-56%) scale(1.1);opacity:.55}}
@@ -178,107 +124,56 @@ const LETTERS = [
           @keyframes bH3{0%,100%{transform:translateX(-50%) scale(1);opacity:.5}50%{transform:translateX(-46%) scale(1.16);opacity:.28}}
         `}</style>
 
-        {/* Blobs */}
+        {/* Blobs — fade early */}
         <div style={{position:'absolute',inset:0,pointerEvents:'none',overflow:'hidden',opacity:blobOp}}>
           <div style={{position:'absolute',width:'800px',height:'800px',borderRadius:'50%',background:'radial-gradient(circle,rgba(0,102,255,0.22) 0%,transparent 68%)',top:'50%',left:'-120px',animation:'bH1 9s ease-in-out infinite'}}/>
           <div style={{position:'absolute',width:'700px',height:'700px',borderRadius:'50%',background:'radial-gradient(circle,rgba(0,102,255,0.16) 0%,transparent 68%)',top:'50%',right:'-100px',animation:'bH2 11s ease-in-out infinite'}}/>
           <div style={{position:'absolute',width:'500px',height:'500px',borderRadius:'50%',background:'radial-gradient(circle,rgba(86,148,255,0.12) 0%,transparent 65%)',top:'8%',left:'50%',animation:'bH3 7s ease-in-out infinite'}}/>
         </div>
 
-        {/* Vignette */}
-        <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,rgba(0,7,17,0.55) 0%,transparent 35%,rgba(0,7,17,0.7) 100%)',pointerEvents:'none',zIndex:1}}/>
+        {/* Vignette — fades as bg lightens */}
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,rgba(0,7,17,0.55) 0%,transparent 35%,rgba(0,7,17,0.7) 100%)',pointerEvents:'none',zIndex:1,opacity:vignetteOp}}/>
 
-        {/* Main content — zooms on scroll */}
+        {/* Main content */}
         <div style={{
           position:'relative', zIndex:2, textAlign:'center',
-          // Zoom origin shifted to ~55% to center on "A" in "Amin"
           transformOrigin:'55% center',
           transform:`scale(${globalScale})`, willChange:'transform',
           opacity: contentOp,
-          transition: 'opacity 0.1s linear',
+          transition: 'opacity 0.08s linear',
         }}>
-          {/* Eyebrow */}
-          <p style={{
-            fontSize:13, textTransform:'uppercase', letterSpacing:'0.3em',
-            color:'#0066ff', marginBottom:22, fontFamily:"'Saira',sans-serif",
-            fontWeight:600, whiteSpace:'nowrap',
-          }}>Forbes 30 Under 30 — Exited Founder</p>
+          <p style={{ fontSize:13, textTransform:'uppercase', letterSpacing:'0.3em', color: eyebrow, marginBottom:22, fontFamily:"'Saira',sans-serif", fontWeight:600, whiteSpace:'nowrap' }}>Forbes 30 Under 30 — Exited Founder</p>
 
-          {/* Title */}
           <div style={{position:'relative'}}>
-            <h1 style={{
-              fontFamily:"'Saira',sans-serif", fontWeight:800,
-              lineHeight:0.88, letterSpacing:'-0.04em', margin:0,
-              display:'flex', alignItems:'baseline', justifyContent:'center',
-              whiteSpace:'nowrap', position:'relative',
-              fontSize:'clamp(5rem,9.5vw,10.5rem)',
-            }}>
+            <h1 style={{ fontFamily:"'Saira',sans-serif", fontWeight:800, lineHeight:0.88, letterSpacing:'-0.04em', margin:0, display:'flex', alignItems:'baseline', justifyContent:'center', whiteSpace:'nowrap', position:'relative', fontSize:'clamp(5rem,9.5vw,10.5rem)', color: textBase }}>
               {LETTERS.map((l, i) => (
-                <span key={i} style={{
-                  color:'#ffffff',
-                  display:'inline-block',
-                  transformOrigin:'center bottom',
-                  position:'relative',
-                }}>{l.ch}</span>
+                <span key={i} style={{display:'inline-block',transformOrigin:'center bottom'}}>{l.ch}</span>
               ))}
             </h1>
 
-            {/* macOS Folder Nav — floating around the title */}
-            <div style={{
-              position:'absolute', inset:0,
-              pointerEvents: contentOp < 0.05 ? 'none' : 'auto',
-              transform: `translate(${mouse.x * -8}px, ${mouse.y * -8}px)`,
-              transition:'transform 0.4s ease-out',
-            }}>
+            <div style={{ position:'absolute', inset:0, pointerEvents: contentOp < 0.05 ? 'none' : 'auto', transform: `translate(${mouse.x * -8}px, ${mouse.y * -8}px)`, transition:'transform 0.4s ease-out' }}>
               {FOLDERS.map(f => (
-                <div key={f.id} style={{
-                  position:'absolute', left:'50%', top:'50%',
-                  transform:`translate(${f.x}, ${f.y})`,
-                }}>
-                  <MacFolder
-                    label={f.label}
-                    href={`#${f.id}`}
-                    dur={f.dur}
-                    delay={f.delay}
-                    rot={f.rot}
-                    drift={f.drift}
-                  />
+                <div key={f.id} style={{position:'absolute', left:'50%', top:'50%', transform:`translate(${f.x}, ${f.y})`}}>
+                  <MacFolder label={f.label} href={`#${f.id}`} dur={f.dur} delay={f.delay} rot={f.rot} drift={f.drift}/>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Subtitle */}
-          <p style={{
-            maxWidth:480, fontSize:16, color:'rgba(255,255,255,0.65)',
-            lineHeight:1.75, fontFamily:"'Saira',sans-serif",
-            margin:'26px auto 0',
-          }}>
-            Built and sold a multi-7-figure agency at 24. Now I invest,
-            and help scaling entrepreneurs build category-defining agencies.
+          <p style={{ maxWidth:480, fontSize:16, color: textDim, lineHeight:1.75, fontFamily:"'Saira',sans-serif", margin:'26px auto 0' }}>
+            Built and sold a multi-7-figure agency at 24. Now I invest, and help scaling entrepreneurs build category-defining agencies.
           </p>
 
-          {/* Tags */}
           <div style={{display:'flex',flexWrap:'wrap',gap:8,marginTop:18,justifyContent:'center'}}>
-            {['Founder','Investor','Speaker'].map(w=>(
-              <span key={w} style={{
-                padding:'5px 13px',fontSize:9,textTransform:'uppercase',
-                letterSpacing:'0.12em',borderRadius:2,
-                border:'1px solid rgba(255,255,255,0.15)',
-                color:'rgba(255,255,255,0.55)',fontFamily:"'Saira',sans-serif",
-              }}>{w}</span>
+            {['Founder','Investor','Speaker'].map(w=> (
+              <span key={w} style={{ padding:'5px 13px', fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', borderRadius:2, border:`1px solid ${tagBdr}`, color: tagClr, fontFamily:"'Saira',sans-serif" }}>{w}</span>
             ))}
           </div>
         </div>
 
-        {/* Scroll cue */}
-        <div style={{
-          position:'absolute',bottom:110,left:'50%',transform:'translateX(-50%)',
-          zIndex:3,display:'flex',flexDirection:'column',alignItems:'center',gap:6,
-          opacity:Math.max(0,1-progress*6),
-        }}>
-          <div style={{width:1,height:32,background:'rgba(255,255,255,0.2)'}}/>
-          <span style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.2em',color:'rgba(255,255,255,0.25)',fontFamily:"'Saira',sans-serif"}}>Scroll</span>
+        <div style={{ position:'absolute',bottom:110,left:'50%',transform:'translateX(-50%)', zIndex:3, display:'flex', flexDirection:'column', alignItems:'center', gap:6, opacity:Math.max(0,1-progress*5) }}>
+          <div style={{width:1,height:32,background:scrollLn}}/>
+          <span style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.2em',color:scrollLbl,fontFamily:"'Saira',sans-serif"}}>Scroll</span>
         </div>
       </div>
     </section>

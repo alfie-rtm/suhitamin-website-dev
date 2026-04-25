@@ -114,7 +114,7 @@ const HeroComponent = ({ onLightMode }) => {
         {/* Main content — zooms on scroll, origin on "A" */}
         <div style={{
           position:'relative', zIndex:2, textAlign:'center',
-          transformOrigin:'55% center',
+          transformOrigin:'52% center',
           transform:`scale(${globalScale})`, willChange:'transform',
         }}>>
           {/* Eyebrow */}

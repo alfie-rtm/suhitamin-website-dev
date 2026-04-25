@@ -1,54 +1,40 @@
 // Hero.jsx — Full-screen with folder nav, no separate nav bar
 const FOLDERS = [
-  { id:'projects',    label:'Projects',    emoji:'📁', x:'-52%', y:'-185%' },
-  { id:'investing',   label:'Investing',   emoji:'📁', x:'38%',  y:'-195%' },
-  { id:'youtube',     label:'Content',     emoji:'📁', x:'-55%', y:'118%'  },
-  { id:'speaking',    label:'Speaking',    emoji:'📁', x:'40%',  y:'108%'  },
+  { id:'projects',  label:'Projects',  x:'-500%', y:'-250%', dur:'8s', delay:'0s',   rot:-3, drift:[{x:2,y:-3,r:0.3},{x:-1,y:2,r:-0.2},{x:2,y:-2,r:0.2},{x:-1,y:1,r:-0.3}] },
+  { id:'investing', label:'Investing', x:'500%',  y:'-195%', dur:'9.5s', delay:'1.5s', rot:2,  drift:[{x:-2,y:-1,r:-0.3},{x:1,y:2,r:0.2},{x:-1,y:-2,r:-0.2},{x:2,y:1,r:0.3}] },
+  { id:'youtube',   label:'Content',   x:'-400%', y:'300%',  dur:'7s', delay:'3s',   rot:-1, drift:[{x:1,y:2,r:0.2},{x:-2,y:-1,r:-0.3},{x:1,y:2,r:0.3},{x:-1,y:-1,r:-0.2}] },
+  { id:'speaking',  label:'Speaking',  x:'350%',  y:'250%',  dur:'10s', delay:'0.5s', rot:3,  drift:[{x:-1,y:-2,r:-0.2},{x:2,y:1,r:0.3},{x:-2,y:-1,r:-0.3},{x:1,y:2,r:0.2}] },
 ];
 
-const MacFolder = ({ label, href, style }) => {
+const MacFolder = ({ label, href, dur, delay, rot, drift }) => {
   const [hov, setHov] = React.useState(false);
+  const [tilt, setTilt] = React.useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    setTilt({ x: (e.clientY - cy) / 12, y: (cx - e.clientX) / 12 });
+  };
+  const handleMouseLeave = () => { setHov(false); setTilt({ x: 0, y: 0 }); };
+
+  const floatName = `float_${label.replace(/\s/g,'')}`;
+  const kf = drift.map((d, i) => `${(i + 1) * 20}%  { transform: translate(${d.x}px, ${d.y}px) rotate(${rot + d.r}deg); }`).join('\n          ');
+
   return (
-    <a href={href}
-      onMouseEnter={()=>setHov(true)}
-      onMouseLeave={()=>setHov(false)}
-      style={{
-        display:'flex', flexDirection:'column', alignItems:'center', gap:7,
-        textDecoration:'none', cursor:'pointer',
-        transform: hov ? 'translateY(-5px) scale(1.08)' : 'none',
-        transition:'transform 0.3s cubic-bezier(0.4,0,0.2,1)',
-        ...style,
+    <a href={href} onMouseEnter={()=>setHov(true)} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}
+      style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:7, textDecoration:'none', cursor:'pointer',
+        animation: `${floatName} ${dur} ease-in-out ${delay} infinite`,
+        transform: hov ? `translateY(-8px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.12)` : `rotate(${rot}deg)`,
+        transformStyle:'preserve-3d', perspective:600,
+        transition:'transform 0.25s cubic-bezier(0.4,0,0.2,1)',
+        filter: hov ? 'drop-shadow(0 0 20px rgba(0,102,255,0.4))' : 'none',
       }}>
-      {/* Folder body */}
-      <div style={{position:'relative', width:86, height:70}}>
-        {/* Tab */}
-        <div style={{
-          position:'absolute', top:-11, left:0, width:34, height:12,
-          background: hov ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.10)',
-          border:'1px solid rgba(255,255,255,0.20)',
-          borderBottom:'none', borderRadius:'4px 4px 0 0',
-          backdropFilter:'blur(12px)',
-          transition:'background 0.2s',
-        }}/>
-        {/* Body */}
-        <div style={{
-          position:'absolute', inset:0,
-          background: hov ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.09)',
-          border:'1px solid rgba(255,255,255,0.22)',
-          borderRadius:'0 4px 4px 4px',
-          backdropFilter:'blur(16px)',
-          display:'flex', alignItems:'center', justifyContent:'center',
-          transition:'background 0.2s',
-          boxShadow: hov ? '0 8px 32px rgba(0,102,255,0.25)' : '0 4px 16px rgba(0,0,0,0.3)',
-        }}>
-          {/* Inner icon */}
+      <div style={{ position:'relative', width:86, height:70, transform: `translateZ(${hov ? 20 : 0}px)`, transition:'transform 0.25s cubic-bezier(0.4,0,0.2,1)' }}>
+        <div style={{ position:'absolute', top:-11, left:0, width:34, height:12, background: hov ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.10)', border:'1px solid rgba(255,255,255,0.25)', borderBottom:'none', borderRadius:'4px 4px 0 0', backdropFilter:'blur(12px)', transition:'background 0.2s' }}/>
+        <div style={{ position:'absolute', inset:0, background: hov ? 'rgba(255,255,255,0.20)' : 'rgba(255,255,255,0.09)', border:'1px solid rgba(255,255,255,0.28)', borderRadius:'0 4px 4px 4px', backdropFilter:'blur(16px)', display:'flex', alignItems:'center', justifyContent:'center', transition:'background 0.2s, box-shadow 0.3s', boxShadow: hov ? '0 12px 40px rgba(0,102,255,0.35), inset 0 1px 0 rgba(255,255,255,0.15)' : '0 4px 16px rgba(0,0,0,0.3)' }}>
           <div style={{display:'flex', flexDirection:'column', alignItems:'center', gap:2}}>
-            <div style={{
-              width:28, height:20, borderRadius:2,
-              background:'linear-gradient(135deg, #0066ff, #5694ff)',
-              opacity: hov ? 1 : 0.7,
-              transition:'opacity 0.2s',
-            }}/>
+            <div style={{ width:28, height:20, borderRadius:2, background:'linear-gradient(135deg, #0066ff, #5694ff)', opacity: hov ? 1 : 0.7, transition:'opacity 0.2s' }}/>
             <div style={{width:20, height:3, borderRadius:1, background:'rgba(255,255,255,0.3)'}}/>
             <div style={{width:24, height:2, borderRadius:1, background:'rgba(255,255,255,0.2)'}}/>
           </div>
@@ -169,7 +155,7 @@ const HeroComponent = ({ onLightMode }) => {
                   position:'absolute', left:'50%', top:'50%',
                   transform:`translate(${f.x}, ${f.y})`,
                 }}>
-                  <MacFolder label={f.label} href={`#${f.id}`}/>
+                  <MacFolder label={f.label} href={`#${f.id}`} dur={f.dur} delay={f.delay} rot={f.rot} drift={f.drift}/>
                 </div>
               ))}
             </div>

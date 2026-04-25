@@ -1,5 +1,7 @@
 // Hero.jsx — Full-screen with folder nav, no separate nav bar
 // Floating folders — organic drift + mouse parallax
+// Zoom effect: "A" in "Amin" fills viewport on scroll, transitioning to light mode
+
 const FOLDERS = [
   { id:'projects',  label:'Projects',  x:'-500%', y:'-250%', dur:'8s', delay:'0s',   rot:-3, drift:[{x:2,y:-3,r:0.3},{x:-1,y:2,r:-0.2},{x:2,y:-2,r:0.2},{x:-1,y:1,r:-0.3}] },
   { id:'investing', label:'Investing', x:'500%',  y:'-195%', dur:'9.5s', delay:'1.5s', rot:2,  drift:[{x:-2,y:-1,r:-0.3},{x:1,y:2,r:0.2},{x:-1,y:-2,r:-0.2},{x:2,y:1,r:0.3}] },
@@ -85,8 +87,8 @@ const MacFolder = ({ label, href, dur, delay, rot, drift }) => {
               opacity: hov ? 1 : 0.7,
               transition:'opacity 0.2s',
             }}/>
-            <div style={{width:20, height:3, borderRadius:1, background:'rgba(255,255,255,0.3)'}}/>
-            <div style={{width:24, height:2, borderRadius:1, background:'rgba(255,255,255,0.2)'}}/>
+            <div style={{width:20, height:3, borderRadius:1, background:'rgba(255,255,255,0.3)'}}/
+            <div style={{width:24, height:2, borderRadius:1, background:'rgba(255,255,255,0.2)'}}/
           </div>
         </div>
       </div>
@@ -123,7 +125,7 @@ const HeroComponent = ({ onLightMode }) => {
       const scrolled = -rect.top;
       const p = Math.max(0, Math.min(1, scrolled / (sH - window.innerHeight)));
       setProgress(p);
-      if (onLightMode) onLightMode(p > 0.88);
+      if (onLightMode) onLightMode(p > 0.82);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -144,25 +146,28 @@ const HeroComponent = ({ onLightMode }) => {
   }, []);
 
   // Animation phases
-  const phase1  = Math.min(1, progress / 0.45);
-  const phase2  = Math.max(0, Math.min(1, (progress - 0.45) / 0.3));
-  const phase3  = Math.max(0, (progress - 0.75) / 0.15);
+  // phase1: 0-55% — massive zoom into "A"
+  // phase2: 55-85% — content fades out
+  // phase3: 85-100% — light mode transition
+  const phase1 = Math.min(1, progress / 0.55);
+  const phase2 = Math.max(0, Math.min(1, (progress - 0.55) / 0.30));
+  const phase3 = Math.max(0, (progress - 0.85) / 0.15);
 
-  const globalScale = 1 + phase1 * 8;
-  const headingOp   = Math.max(0, 1 - phase2 * 2);
-  const eyebrowOp   = Math.max(0, 1 - phase1 * 4);
-  const tagOp       = Math.max(0, 1 - phase1 * 5);
-  const folderOp    = Math.max(0, 1 - phase1 * 2.2);
-  const blobOp      = Math.max(0, 1 - phase1 * 2.5);
+  // Massive scale: up to 50x so "A" fills viewport
+  const globalScale = 1 + phase1 * 50;
+  // Content fades linearly during phase2
+  const contentOp = Math.max(0, 1 - phase2);
+  // Blobs fade early
+  const blobOp = Math.max(0, 1 - phase1 * 1.5);
 
-  const LETTERS = [
-    {ch:'S'},{ch:'U'},{ch:'H'},{ch:'I'},{ch:'T',isT:true},
-    {ch:'\u00A0', sp:true},
+const LETTERS = [
+    {ch:'S'},{ch:'U'},{ch:'H'},{ch:'I'},{ch:'T'},
+    {ch:'\u00A0'},
     {ch:'A'},{ch:'M'},{ch:'I'},{ch:'N'},{ch:'.'},
   ];
 
   return (
-    <section ref={sectionRef} id="top" style={{height:'420vh', position:'relative'}}>
+    <section ref={sectionRef} id="top" style={{height:'480vh', position:'relative'}}>
       <div style={{
         position:'sticky', top:0, height:'100vh', overflow:'hidden',
         background:'#000711', display:'flex', alignItems:'center', justifyContent:'center',
@@ -183,21 +188,24 @@ const HeroComponent = ({ onLightMode }) => {
         {/* Vignette */}
         <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,rgba(0,7,17,0.55) 0%,transparent 35%,rgba(0,7,17,0.7) 100%)',pointerEvents:'none',zIndex:1}}/>
 
-        {/* Main content */}
+        {/* Main content — zooms on scroll */}
         <div style={{
           position:'relative', zIndex:2, textAlign:'center',
-          transformOrigin:'center center',
+          // Zoom origin shifted to ~55% to center on "A" in "Amin"
+          transformOrigin:'55% center',
           transform:`scale(${globalScale})`, willChange:'transform',
+          opacity: contentOp,
+          transition: 'opacity 0.1s linear',
         }}>
           {/* Eyebrow */}
           <p style={{
             fontSize:13, textTransform:'uppercase', letterSpacing:'0.3em',
             color:'#0066ff', marginBottom:22, fontFamily:"'Saira',sans-serif",
-            fontWeight:600, opacity:eyebrowOp, whiteSpace:'nowrap',
+            fontWeight:600, whiteSpace:'nowrap',
           }}>Forbes 30 Under 30 — Exited Founder</p>
 
-          {/* Title — unified zoom + fade */}
-          <div style={{position:'relative', opacity:headingOp, transition:'opacity 0.04s'}}>
+          {/* Title */}
+          <div style={{position:'relative'}}>
             <h1 style={{
               fontFamily:"'Saira',sans-serif", fontWeight:800,
               lineHeight:0.88, letterSpacing:'-0.04em', margin:0,
@@ -215,11 +223,10 @@ const HeroComponent = ({ onLightMode }) => {
               ))}
             </h1>
 
-            {/* Folder Nav — with mouse parallax */}
+            {/* macOS Folder Nav — floating around the title */}
             <div style={{
               position:'absolute', inset:0,
-              opacity:folderOp, transition:'opacity 0.15s',
-              pointerEvents: folderOp < 0.05 ? 'none' : 'auto',
+              pointerEvents: contentOp < 0.05 ? 'none' : 'auto',
               transform: `translate(${mouse.x * -8}px, ${mouse.y * -8}px)`,
               transition:'transform 0.4s ease-out',
             }}>
@@ -245,14 +252,14 @@ const HeroComponent = ({ onLightMode }) => {
           <p style={{
             maxWidth:480, fontSize:16, color:'rgba(255,255,255,0.65)',
             lineHeight:1.75, fontFamily:"'Saira',sans-serif",
-            margin:'26px auto 0', opacity:eyebrowOp,
+            margin:'26px auto 0',
           }}>
             Built and sold a multi-7-figure agency at 24. Now I invest,
             and help scaling entrepreneurs build category-defining agencies.
           </p>
 
           {/* Tags */}
-          <div style={{display:'flex',flexWrap:'wrap',gap:8,marginTop:18,justifyContent:'center',opacity:tagOp}}>
+          <div style={{display:'flex',flexWrap:'wrap',gap:8,marginTop:18,justifyContent:'center'}}>
             {['Founder','Investor','Speaker'].map(w=>(
               <span key={w} style={{
                 padding:'5px 13px',fontSize:9,textTransform:'uppercase',
@@ -268,9 +275,9 @@ const HeroComponent = ({ onLightMode }) => {
         <div style={{
           position:'absolute',bottom:110,left:'50%',transform:'translateX(-50%)',
           zIndex:3,display:'flex',flexDirection:'column',alignItems:'center',gap:6,
-          opacity:Math.max(0,1-progress*8),
+          opacity:Math.max(0,1-progress*6),
         }}>
-          <div style={{width:1,height:32,background:'rgba(255,255,255,0.2)'}}/>
+          <div style={{width:1,height:32,background:'rgba(255,255,255,0.2)'}}/
           <span style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.2em',color:'rgba(255,255,255,0.25)',fontFamily:"'Saira',sans-serif"}}>Scroll</span>
         </div>
       </div>

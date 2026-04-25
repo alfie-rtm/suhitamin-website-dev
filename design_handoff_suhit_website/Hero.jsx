@@ -80,7 +80,7 @@ const HeroComponent = ({ onLightMode }) => {
   // SLOW, GENTLE zoom:
   // Phase 1 (0-50%): "A" zooms to fill viewport — scale 1→120
   // Phase 2 (50-70%): All content fades out
-  // Phase 3 (70-90%): Background transitions dark → white
+  // Phase 3 (70-90%): Light mode signal for next section
   const phase1 = Math.min(1, progress / 0.50);
   const phase2 = Math.max(0, Math.min(1, (progress - 0.50) / 0.20));
   const phase3 = Math.max(0, Math.min(1, (progress - 0.70) / 0.20));
@@ -90,21 +90,17 @@ const HeroComponent = ({ onLightMode }) => {
   const blobOp       = Math.max(0, 1 - phase1 * 1.5);
   const vignetteOp   = Math.max(0, 1 - phase2);
 
-  // Background: #000711 → #f2f4f8
-  const bgR = Math.round(242 * phase3);
-  const bgG = Math.round(7 + 237 * phase3);
-  const bgB = Math.round(17 + 231 * phase3);
-  const bgColor = `rgb(${bgR}, ${bgG}, ${bgB})`;
+  // Hero background stays DARK always. The white "A" IS the white transition.
+  const bgColor = '#000711';
 
-  // Text adapts to bg lightness
-  const isLight = phase3 > 0.5;
-  const textBase = isLight ? '#08101e' : '#ffffff';
-  const textDim  = isLight ? 'rgba(8,16,30,0.55)' : 'rgba(255,255,255,0.65)';
-  const tagClr   = isLight ? 'rgba(8,16,30,0.55)' : 'rgba(255,255,255,0.55)';
-  const tagBdr   = isLight ? 'rgba(8,16,30,0.15)' : 'rgba(255,255,255,0.15)';
-  const eyebrow  = isLight ? '#004ecc' : '#0066ff';
-  const scrollLn = isLight ? 'rgba(8,16,30,0.2)' : 'rgba(255,255,255,0.2)';
-  const scrollLbl= isLight ? 'rgba(8,16,30,0.25)' : 'rgba(255,255,255,0.25)';
+  // Text stays WHITE always (white "A" zooms to fill screen)
+  const textBase = '#ffffff';
+  const textDim  = 'rgba(255,255,255,0.65)';
+  const tagClr   = 'rgba(255,255,255,0.55)';
+  const tagBdr   = 'rgba(255,255,255,0.15)';
+  const eyebrow  = '#0066ff';
+  const scrollLn = 'rgba(255,255,255,0.2)';
+  const scrollLbl= 'rgba(255,255,255,0.25)';
 
   const LETTERS = [
     {ch:'S'},{ch:'U'},{ch:'H'},{ch:'I'},{ch:'T'},
@@ -117,7 +113,6 @@ const HeroComponent = ({ onLightMode }) => {
       <div style={{
         position:'sticky', top:0, height:'100vh', overflow:'hidden',
         background: bgColor, display:'flex', alignItems:'center', justifyContent:'center',
-        transition: 'background 0.1s linear',
       }}>
         <style>{`
           @keyframes bH1{0%,100%{transform:translateY(-50%) scale(1);opacity:.8}50%{transform:translateY(-56%) scale(1.1);opacity:.55}}

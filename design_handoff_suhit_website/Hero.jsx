@@ -62,7 +62,7 @@ const HeroComponent = ({ onLightMode }) => {
       const scrolled = -rect.top;
       const p = Math.max(0, Math.min(1, scrolled / (sH - window.innerHeight)));
       setProgress(p);
-      if (onLightMode) onLightMode(p > 0.70);
+      if (onLightMode) onLightMode(p > 0.55);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -77,14 +77,14 @@ const HeroComponent = ({ onLightMode }) => {
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
 
-  // Phase 1 (0-30%): Zoom "A" to fill viewport — scale 1→100
-  // Phase 2 (30-55%): Content fades out
-  // Phase 3 (55-80%): Background transitions dark → white
-  const phase1 = Math.min(1, progress / 0.30);
-  const phase2 = Math.max(0, Math.min(1, (progress - 0.30) / 0.25));
-  const phase3 = Math.max(0, Math.min(1, (progress - 0.55) / 0.25));
+  // Phase 1 (0-25%): Zoom "A" to fill viewport — scale 1→200
+  // Phase 2 (25-45%): Content fades out
+  // Phase 3 (45-70%): Background transitions dark → white
+  const phase1 = Math.min(1, progress / 0.25);
+  const phase2 = Math.max(0, Math.min(1, (progress - 0.25) / 0.20));
+  const phase3 = Math.max(0, Math.min(1, (progress - 0.45) / 0.25));
 
-  const globalScale = 1 + phase1 * 100;
+  const globalScale = 1 + phase1 * 200;
   const contentOp   = Math.max(0, 1 - phase2);
   const blobOp      = Math.max(0, 1 - phase1 * 2);
   const vignetteOp  = Math.max(0, 1 - phase2 * 1.5);
@@ -112,7 +112,7 @@ const HeroComponent = ({ onLightMode }) => {
   ];
 
   return (
-    <section ref={sectionRef} id="top" style={{height:'520vh', position:'relative'}}>
+    <section ref={sectionRef} id="top" style={{height:'600vh', position:'relative'}}>
       <div style={{
         position:'sticky', top:0, height:'100vh', overflow:'hidden',
         background: bgColor, display:'flex', alignItems:'center', justifyContent:'center',
@@ -137,7 +137,7 @@ const HeroComponent = ({ onLightMode }) => {
         {/* Main content */}
         <div style={{
           position:'relative', zIndex:2, textAlign:'center',
-          transformOrigin:'55% center',
+          transformOrigin:'58% center',
           transform:`scale(${globalScale})`, willChange:'transform',
           opacity: contentOp,
           transition: 'opacity 0.08s linear',

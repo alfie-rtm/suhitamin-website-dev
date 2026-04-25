@@ -111,21 +111,19 @@ const HeroComponent = ({ onLightMode }) => {
         {/* Vignette */}
         <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,rgba(0,7,17,0.55) 0%,transparent 35%,rgba(0,7,17,0.7) 100%)',pointerEvents:'none',zIndex:1}}/>
 
-        {/* Main content — zooms on scroll, origin on "A" */}
+        {/* Main content — fades on scroll */}
         <div style={{
           position:'relative', zIndex:2, textAlign:'center',
-          transformOrigin:'52% center',
-          transform:`scale(${globalScale})`, willChange:'transform',
-        }}>>
-          {/* Eyebrow */}
+        }}>
+          {/* Eyebrow — fades early */}
           <p style={{
             fontSize:13, textTransform:'uppercase', letterSpacing:'0.3em',
             color:'#0066ff', marginBottom:22, fontFamily:"'Saira',sans-serif",
             fontWeight:600, opacity:eyebrowOp, whiteSpace:'nowrap',
           }}>Forbes 30 Under 30 — Exited Founder</p>
 
-          {/* Heading */}
-          <div style={{position:'relative', display:'inline-block'}}>
+          {/* Heading — zooms into "A" */}
+          <div style={{position:'relative', display:'inline-block', transformOrigin:'56% center', transform:`scale(${globalScale})`, willChange:'transform'}}>
             <h1 style={{
               fontFamily:"'Saira',sans-serif", fontWeight:800,
               lineHeight:0.88, letterSpacing:'-0.04em', margin:0,
@@ -144,7 +142,7 @@ const HeroComponent = ({ onLightMode }) => {
               ))}
             </h1>
 
-            {/* macOS Folder Nav — positioned relative to text */}
+            {/* macOS Folder Nav — positioned relative to heading */}
             <div style={{
               position:'absolute', inset:0,
               opacity:folderOp, transition:'opacity 0.15s',
@@ -161,7 +159,7 @@ const HeroComponent = ({ onLightMode }) => {
             </div>
           </div>
 
-          {/* Subtitle */}
+          {/* Subtitle — fades early */}
           <p style={{
             maxWidth:480, fontSize:16, color:'rgba(255,255,255,0.65)',
             lineHeight:1.75, fontFamily:"'Saira',sans-serif",
@@ -171,7 +169,7 @@ const HeroComponent = ({ onLightMode }) => {
             and help scaling entrepreneurs build category-defining agencies.
           </p>
 
-          {/* Tags */}
+          {/* Tags — fade early */}
           <div style={{display:'flex',flexWrap:'wrap',gap:8,marginTop:18,justifyContent:'center',opacity:tagOp}}>
             {['Founder','Investor','Speaker'].map(w=>(
               <span key={w} style={{

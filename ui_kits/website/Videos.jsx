@@ -48,6 +48,7 @@ const VideosComponent = ({ lightMode }) => {
           background:lightMode?'#08101e':'#fff',borderRadius:2,marginBottom:32,cursor:'pointer',
           transition:'opacity 0.2s',
         }}
+          onClick={()=>window.open('https://www.youtube.com/@SuhitBusiness','_blank')}
           onMouseEnter={e=>e.currentTarget.style.opacity='0.88'}
           onMouseLeave={e=>e.currentTarget.style.opacity='1'}>
           <div style={{width:48,height:36,background:'rgba(255,255,255,0.1)',borderRadius:1,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,overflow:'hidden'}}>

@@ -1,7 +1,7 @@
 // Testimonials.jsx — light/dark aware
 const quotes = [
-  { quote:"Suhit's mentorship took us from £200k to multi-7-figure ARR in under 18 months. He sees the leverage points others miss.", name:'Agency Founder', role:'6x growth in 18 months' },
-  { quote:"Practical, sharp, and zero fluff. Suhit's the operator I call before any major decision.", name:'DTC Founder', role:'Portfolio company' },
+  { quote:"Suhit's mentorship has ultimately been the driving force behind our success at Augmentum. His support from day one has allowed us to scale to a 7-figure ARR within 4 years at healthy margins, all while avoiding significant mistakes we would've made without his guidance. I can 100% say we wouldn't be here without him - highly recommend.", name:'Sambhav Chadha', role:'Co Founder of Augmentum Media' },
+  { quote:"Suhit's mentorship has opened up doors we never knew existed. It's truly powerful having someone in your corner who knows a lot more than you do. Despite his success Suhit always shows up and is always working hard. Every hour spent with him is truly the most humbling experience - you realise just how much more there is to learn.", name:'Reyan', role:'Founder of IRG Media' },
 ];
 
 const TestimonialsComponent = ({ lightMode }) => {
@@ -16,7 +16,7 @@ const TestimonialsComponent = ({ lightMode }) => {
   return (
     <section style={{padding:'128px 48px',background:bg,transition:'background 0.6s ease'}}>
       <div style={{maxWidth:1152,margin:'0 auto'}}>
-        <p style={{fontSize:11,textTransform:'uppercase',letterSpacing:'0.3em',color:'#0066ff',marginBottom:48,textAlign:'center',fontFamily:"'Saira',sans-serif",fontWeight:600}}>Operators I&apos;ve worked with</p>
+        <p style={{fontSize:11,textTransform:'uppercase',letterSpacing:'0.3em',color:'#0066ff',marginBottom:48,textAlign:'center',fontFamily:"'Saira',sans-serif",fontWeight:600}}>Agencies I&apos;ve helped scale</p>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:24}}>
           {quotes.map((q,i) => (
             <figure key={i} style={{border:`1px solid ${border}`,borderRadius:2,padding:40,margin:0,background:cardBg}}>

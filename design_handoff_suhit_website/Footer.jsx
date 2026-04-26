@@ -30,10 +30,15 @@ const FooterComponent = ({ lightMode }) => {
         <div>
           <h4 style={{fontSize:10,textTransform:'uppercase',letterSpacing:'0.2em',color:labelClr,marginBottom:16,fontFamily:"'Saira',sans-serif"}}>Elsewhere</h4>
           <ul style={{listStyle:'none',padding:0,margin:0,display:'flex',flexDirection:'column',gap:8}}>
-            {['YouTube','LinkedIn','X / Twitter'].map(s=>(
-              <li key={s}><a href="#" style={lnk}
+            {[
+              {label:'YouTube',url:'https://www.youtube.com/@SuhitBusiness'},
+              {label:'LinkedIn',url:'https://www.linkedin.com/in/suhitamin/'},
+              {label:'X / Twitter',url:'https://x.com/SuhitAmin'},
+              {label:'Instagram',url:'https://www.instagram.com/suhitamin'},
+            ].map(s=>(
+              <li key={s.label}><a href={s.url} target="_blank" rel="noopener noreferrer" style={lnk}
                 onMouseEnter={ev=>ev.target.style.color='#0066ff'}
-                onMouseLeave={ev=>ev.target.style.color=linkClr}>{s}</a></li>
+                onMouseLeave={ev=>ev.target.style.color=linkClr}>{s.label}</a></li>
             ))}
           </ul>
         </div>

@@ -37,7 +37,7 @@ const VideosComponent = ({ lightMode }) => {
               Experience First <em style={{fontStyle:'italic',fontWeight:300,color:h2Dim}}>Advice</em>
             </h2>
           </div>
-          <a href="#" style={{display:'inline-flex',alignItems:'center',gap:8,fontSize:11,fontWeight:700,fontFamily:"'Saira',sans-serif",textTransform:'uppercase',letterSpacing:'0.1em',color:'#0066ff',textDecoration:'none',borderBottom:'1px solid #0066ff',paddingBottom:2}}>
+          <a href="https://www.youtube.com/@SuhitBusiness" target="_blank" rel="noopener noreferrer" style={{display:'inline-flex',alignItems:'center',gap:8,fontSize:11,fontWeight:700,fontFamily:"'Saira',sans-serif",textTransform:'uppercase',letterSpacing:'0.1em',color:'#0066ff',textDecoration:'none',borderBottom:'1px solid #0066ff',paddingBottom:2}}>
             View Channel →
           </a>
         </div>
@@ -93,10 +93,17 @@ const VideosComponent = ({ lightMode }) => {
 
         {/* Social channels */}
         <div style={{display:'flex',gap:24,marginTop:48,paddingTop:32,borderTop:`1px solid ${border}`}}>
-          {['YouTube','LinkedIn','X / Twitter','Newsletter'].map(s=>(
-            <a key={s} href="#" style={{fontSize:11,fontWeight:600,textTransform:'uppercase',letterSpacing:'0.1em',color:'rgba(0,102,255,0.8)',textDecoration:'none',fontFamily:"'Saira',sans-serif",transition:'color 0.2s'}}
+          {[
+            {label:'YouTube',url:'https://www.youtube.com/@SuhitBusiness'},
+            {label:'LinkedIn',url:'https://www.linkedin.com/in/suhitamin/'},
+            {label:'X / Twitter',url:'https://x.com/SuhitAmin'},
+            {label:'Instagram',url:'https://www.instagram.com/suhitamin'},
+            {label:'Newsletter',url:'#newsletter'},
+          ].map(s=>(
+            <a key={s.label} href={s.url} target={s.url.startsWith('http')?'_blank':'_self'} rel={s.url.startsWith('http')?'noopener noreferrer':undefined} style={{fontSize:11,fontWeight:600,textTransform:'uppercase',letterSpacing:'0.1em',color:'rgba(0,102,255,0.8)',textDecoration:'none',fontFamily:"'Saira',sans-serif",transition:'color 0.2s'}}
               onMouseEnter={e=>e.target.style.color='#0066ff'}
-              onMouseLeave={e=>e.target.style.color='rgba(0,102,255,0.8)'}>{s} →</a>
+              onMouseLeave={e=>e.target.style.color='rgba(0,102,255,0.8)'}
+              onClick={s.url==='#newsletter'?()=>document.getElementById('newsletter')?.scrollIntoView({behavior:'smooth'}):undefined}>{s.label} →</a>
           ))}
         </div>
       </div>

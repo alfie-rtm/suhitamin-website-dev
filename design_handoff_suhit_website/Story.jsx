@@ -23,8 +23,8 @@ const StoryComponent = ({ lightMode }) => {
         <div style={{textAlign:'center',marginBottom:80}}>
           <p style={{fontSize:11,textTransform:'uppercase',letterSpacing:'0.3em',color:'#0066ff',marginBottom:16,fontFamily:"'Saira',sans-serif",fontWeight:600}}>The Story</p>
           <h2 style={{fontFamily:"'Saira',sans-serif",fontSize:'clamp(2.5rem,5vw,4.5rem)',fontWeight:700,letterSpacing:'-0.03em',lineHeight:1.1,color:h2Clr,margin:0}}>
-            From a hospital ward<br/>
-            <em style={{fontStyle:'italic',fontWeight:300,color:h2Dim}}>to an exit.</em>
+            From cancer at 16<br/>
+            <em style={{fontStyle:'italic',fontWeight:300,color:h2Dim}}>to selling a business at 24.</em>
           </h2>
         </div>
         <div style={{position:'relative'}}>

@@ -1,13 +1,13 @@
 // Projects.jsx — light/dark aware
 const projects = [
   { num:'01', title:'Saulderson Media', tag:'Influencer Marketing Agency',
-    body:'The agency I founded, scaled, and exited. Now operating as an independent brand serving global creators and DTC brands.' },
+    body:'Founded from a cancer ward in 2018, Suhit built and scaled leading influencer marketing agency Saulderson Media, specialising in scalable influencer strategies for gaming, consumer tech and software brands. Saulderson Media was acquired by Journey Further in October 2025 in a multi seven-figure deal. Suhit remains with the business as part of their senior leadership team.' },
   { num:'02', title:'Angel Portfolio', tag:'Early-Stage Investing',
-    body:'Backing exceptional founders building in creator economy, AI tooling, and consumer software. Cheque size £10k–£50k.' },
+    body:'I invest in exceptional founders building in the creator economy, AI and other verticals. If you are building or scaling something exciting, get in touch.' },
   { num:'03', title:'YouTube', tag:'Long-Form Content',
-    body:'Unpacking the real mechanics of building and selling agencies — operations, hiring, and the parts nobody else talks about.' },
-  { num:'04', title:'Consulting', tag:'1:1 Operator Advisory',
-    body:'Working with a small number of agency founders each year on positioning, sales, and exit-readiness.' },
+    body:'Suhit shares tactical business advice and insights on building and scaling service businesses using the methods he used to scale and exit Saulderson Media.' },
+  { num:'04', title:'Consulting', tag:'Private Advisory',
+    body:'Suhit advises 6-7 figure founders on building enterprise value and scaling their service companies with proven operational principles.' },
 ];
 
 const ProjectsComponent = ({ lightMode }) => {

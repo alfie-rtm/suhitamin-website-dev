@@ -1,9 +1,9 @@
 // Videos.jsx — Content/YouTube section
 const VIDEO_THUMBS = [
-  { num:'01', title:'How to Master Networking in 12mins', tag:'Networking', dur:'14:33' },
-  { num:'02', title:'Fastest Way to Make $1M After Doing it 14+ Times', tag:'Wealth Building', dur:'37:25' },
-  { num:'03', title:"If you don't understand Jensen Huang, you don't understand business", tag:'Leadership', dur:'13:27' },
-  { num:'04', title:'My AI Business is Boring, But Makes Me $533k/month', tag:'AI Business', dur:'13:36' },
+  { num:'01', title:'How to Master Networking in 12mins', tag:'Networking', dur:'14:33', vid:'BZRVeo_LNsM' },
+  { num:'02', title:'Fastest Way to Make $1M After Doing it 14+ Times', tag:'Wealth Building', dur:'37:25', vid:'7QqLI3LJjpE' },
+  { num:'03', title:"If you don't understand Jensen Huang, you don't understand business", tag:'Leadership', dur:'13:27', vid:'LhLhKW0IN8U' },
+  { num:'04', title:'My AI Business is Boring, But Makes Me $533k/month', tag:'AI Business', dur:'13:36', vid:'s-8PJbzDsuA' },
 ];
 
 const PlayIcon = () => (
@@ -64,6 +64,7 @@ const VideosComponent = ({ lightMode }) => {
           {VIDEO_THUMBS.map((v,i) => (
             <div key={i}
               onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)}
+              onClick={()=>window.open(`https://www.youtube.com/watch?v=${v.vid}`,'_blank')}
               style={{cursor:'pointer',transition:'transform 0.25s ease',transform:hov===i?'translateY(-4px)':'none'}}>
               {/* Thumbnail */}
               <div style={{
@@ -73,8 +74,9 @@ const VideosComponent = ({ lightMode }) => {
                 position:'relative',overflow:'hidden',
                 transition:'background 0.25s',
               }}>
-                {/* Placeholder thumbnail bg */}
-                <div style={{position:'absolute',inset:0,background:`linear-gradient(135deg, ${lightMode?'#dde0ec':'#050c1a'}, ${lightMode?'#c8cde0':'#0a1530'})`,opacity:0.8}}/>
+                {/* YouTube thumbnail bg */}
+                <div style={{position:'absolute',inset:0,backgroundImage:`url(https://img.youtube.com/vi/${v.vid}/maxresdefault.jpg)`,backgroundSize:'cover',backgroundPosition:'center'}}/>
+                <div style={{position:'absolute',inset:0,background:'linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.25) 100%)'}}/>
                 <div style={{position:'absolute',bottom:8,left:10,fontFamily:'monospace',fontSize:10,color:'rgba(255,255,255,0.4)',letterSpacing:'0.05em'}}>{v.dur}</div>
                 <div style={{opacity:hov===i?1:0,transition:'opacity 0.2s',position:'relative',zIndex:2}}><PlayIcon/></div>
                 <span style={{position:'absolute',top:8,right:8,fontFamily:'monospace',fontSize:10,color:'#0066ff'}}>{v.num}</span>

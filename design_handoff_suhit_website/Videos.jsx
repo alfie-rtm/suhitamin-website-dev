@@ -1,9 +1,9 @@
 // Videos.jsx — Content/YouTube section
 const VIDEO_THUMBS = [
-  { num:'01', title:'How I Built a 7-Figure Agency From Nothing', tag:'Agency Building', dur:'24:18' },
-  { num:'02', title:'The Real Mechanics of Selling a Business', tag:'Exit Strategy', dur:'31:44' },
-  { num:'03', title:'Why Most Founders Plateau at £1M ARR', tag:'Scaling', dur:'19:07' },
-  { num:'04', title:'Inside My Angel Portfolio: What I Look For', tag:'Investing', dur:'28:55' },
+  { num:'01', title:'How to Master Networking in 12mins', tag:'Networking', dur:'14:33' },
+  { num:'02', title:'Fastest Way to Make $1M After Doing it 14+ Times', tag:'Wealth Building', dur:'37:25' },
+  { num:'03', title:"If you don't understand Jensen Huang, you don't understand business", tag:'Leadership', dur:'13:27' },
+  { num:'04', title:'My AI Business is Boring, But Makes Me $533k/month', tag:'AI Business', dur:'13:36' },
 ];
 
 const PlayIcon = () => (
@@ -34,7 +34,7 @@ const VideosComponent = ({ lightMode }) => {
           <div>
             <p style={{fontSize:11,textTransform:'uppercase',letterSpacing:'0.3em',color:'#0066ff',marginBottom:14,fontFamily:"'Saira',sans-serif",fontWeight:600}}>The Content</p>
             <h2 style={{fontFamily:"'Saira',sans-serif",fontSize:'clamp(2.2rem,4vw,3.5rem)',fontWeight:700,letterSpacing:'-0.03em',lineHeight:1.05,color:h2Clr,margin:0}}>
-              No fluff. <em style={{fontStyle:'italic',fontWeight:300,color:h2Dim}}>No sponsors.</em>
+              Experience First <em style={{fontStyle:'italic',fontWeight:300,color:h2Dim}}>Advice</em>
             </h2>
           </div>
           <a href="#" style={{display:'inline-flex',alignItems:'center',gap:8,fontSize:11,fontWeight:700,fontFamily:"'Saira',sans-serif",textTransform:'uppercase',letterSpacing:'0.1em',color:'#0066ff',textDecoration:'none',borderBottom:'1px solid #0066ff',paddingBottom:2}}>
